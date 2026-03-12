@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:stacked_services/stacked_services.dart';
-import 'package:tmdb_movies/app/app.locator.dart';
 import 'package:tmdb_movies/network/exception/app_exception.dart';
 
 class DioErrorHandler {
