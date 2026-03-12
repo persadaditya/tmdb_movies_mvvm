@@ -8,6 +8,7 @@ import 'package:stacked_services/stacked_services.dart';
 // @stacked-import
 
 @StackedApp(
+  logger: StackedLogger(),
   routes: [
     CustomRoute(page: StartupView, initial: true),
     CustomRoute(page: HomeView),
