@@ -1,6 +1,8 @@
 # tmdb_movies
 
 A new Flutter project.
+Stacked version of web.
+this codebase created from stacked create app tmdb_movies -t web --platforms ios,android,web
 
 ## Golden Tests
 
