@@ -1,4 +1,4 @@
-package com.example.tmdb_movies
+package com.persadaditya.tmdbmovies
 
 import io.flutter.embedding.android.FlutterActivity
 
