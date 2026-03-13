@@ -4,6 +4,7 @@ import 'package:tmdb_movies/app/app.bottomsheets.dart';
 import 'package:tmdb_movies/app/app.dialogs.dart';
 import 'package:tmdb_movies/app/app.locator.dart';
 import 'package:tmdb_movies/app/app.router.dart';
+import 'package:tmdb_movies/ui/common/app_theme.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -24,6 +25,7 @@ class MainApp extends StatelessWidget {
     return ResponsiveApp(
       builder: (_) => MaterialApp.router(
         debugShowCheckedModeBanner: false,
+        theme: buildTheme(Brightness.dark),
         routerDelegate: stackedRouter.delegate(),
         routeInformationParser: stackedRouter.defaultRouteParser(),
       ),
