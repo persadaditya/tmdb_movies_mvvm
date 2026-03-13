@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
+import 'package:tmdb_movies/constant/vectors.dart';
 import 'package:tmdb_movies/ui/common/ui_helpers.dart';
 
 import 'startup_viewmodel.dart';
@@ -14,16 +16,22 @@ class StartupView extends StackedView<StartupViewModel> {
     StartupViewModel viewModel,
     Widget? child,
   ) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'STACKED',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
+            SvgPicture.asset(
+              Vectors.logo,
+              height: 100,
             ),
-            Row(
+            verticalSpaceSmall,
+            const Text(
+              'CINEMAX',
+              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            ),
+            verticalSpaceSmall,
+            const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text('Loading ...', style: TextStyle(fontSize: 16)),
@@ -32,7 +40,6 @@ class StartupView extends StackedView<StartupViewModel> {
                   width: 16,
                   height: 16,
                   child: CircularProgressIndicator(
-                    color: Colors.black,
                     strokeWidth: 6,
                   ),
                 )
