@@ -12,8 +12,18 @@ add flutter pub add flutter_dotenv, add .env file then store tmdb api key in the
 
 ## Change Package Name
 
-use this package[https://pub.dev/packages/change_app_package_name] to change package name. after add plugins just simply use this command.
-"'dart run change_app_package_name:main com.new.package.name'"
+use this [package](https://pub.dev/packages/change_app_package_name) to change package name. after add plugins just simply use this command.
+> **dart run change_app_package_name:main com.new.package.name**
+
+## UI Design
+
+This app UI design is based on this [Figma by Hy Horn](https://www.figma.com/design/OCpGgebMwwuwlJUBkBqri5/Cinemax---Movie-Apps-UI-Kit--Community-?node-id=4-11&p=f&t=iyCwh3OsfjIvV7gG-0) named Cinemax
+
+## Change app icon
+
+change icon easily with this [Package](https://pub.dev/packages/flutter_launcher_icons).
+simply run this to generate file then change the data
+> **dart run flutter_launcher_icons:generate**
 
 ## Golden Tests
 
