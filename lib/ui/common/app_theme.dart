@@ -65,3 +65,15 @@ ButtonStyle secondaryButtonStyle = ButtonStyle(
         borderRadius: BorderRadius.circular(20),
       ),
     ));
+
+ButtonStyle tertiaryButtonStyle = ButtonStyle(
+    backgroundColor: WidgetStateProperty.all(appColorPrimaryDark),
+    foregroundColor: WidgetStateProperty.all(appColorTextWhite),
+    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: const BorderSide(
+          color: appColorPrimaryBlueAccent,
+        ),
+      ),
+    ));

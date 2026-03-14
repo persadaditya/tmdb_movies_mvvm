@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tmdb_movies/constant/vectors.dart';
+import 'package:tmdb_movies/ui/common/app_colors.dart';
+import 'package:tmdb_movies/ui/common/app_theme.dart';
 import 'package:tmdb_movies/ui/common/ui_helpers.dart';
 import 'package:tmdb_movies/ui/widgets/common/app_text_field/app_text_field.dart';
 
@@ -44,15 +46,41 @@ class SignInViewMobile extends ViewModelWidget<SignInViewModel> {
                   labelText: 'Email Address',
                   hintText: 'your@email.com',
                 ),
-                verticalSpaceMedium,
+                verticalSpaceSmall,
                 AppTextField(
                   controller: viewModel.passwordController,
                   labelText: 'Password',
                   hintText: 'password',
                   isPassword: true,
                 ),
+                verticalSpaceSmall,
+                ElevatedButton(onPressed: () {}, child: const Text('Sign In')),
+                verticalSpaceSmall,
+                const Text('OR', textAlign: TextAlign.center),
+                verticalSpaceSmall,
+                ElevatedButton(
+                    style: tertiaryButtonStyle,
+                    onPressed: () {},
+                    child: const Text('Login as Guest')),
                 verticalSpaceMedium,
-                ElevatedButton(onPressed: () {}, child: Text('Sign In'))
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(
+                    'Don\'t have an account?',
+                    style: textTheme.bodyMedium,
+                  ),
+                  horizontalSpaceSmall,
+                  TextButton(
+                    onPressed: () {
+                      viewModel.signUp();
+                    },
+                    child: Text(
+                      'Sign Up',
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: appColorPrimaryBlueAccent,
+                      ),
+                    ),
+                  ),
+                ])
               ],
             ),
           ],

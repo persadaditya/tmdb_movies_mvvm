@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const double _tinySize = 5.0;
 const double _smallSize = 10.0;
@@ -75,4 +76,10 @@ double getResponsiveFontSize(BuildContext context,
       max);
 
   return responsiveSize;
+}
+
+Future<void> openUrl(String url) async {
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url));
+  }
 }

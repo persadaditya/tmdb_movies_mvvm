@@ -21,6 +21,7 @@ dependencies:
   flutter_launcher_icons: ^0.14.4
   google_fonts: ^6.3.0
   flutter_svg: ^2.2.0
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   build_runner: ^2.4.5
