@@ -83,3 +83,14 @@ Future<void> openUrl(String url) async {
     await launchUrl(Uri.parse(url));
   }
 }
+
+extension WidgetExt on Widget {
+  Widget withLoading(bool isLoading) {
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(
+            strokeWidth: 2,
+          ))
+        : this;
+  }
+}

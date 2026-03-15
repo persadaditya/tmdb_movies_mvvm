@@ -37,11 +37,11 @@ class DioErrorHandler {
         if (statusCode == 400) {
           return AppException(data['status_message'], statusCode: statusCode);
         }
-        // if (statusCode == 401) {
-        //   ///navigate to login
-        //   navigationService.replaceWithLoginView();
-        //   return UnauthorizedException();
-        // }
+        if (statusCode == 401) {
+          ///navigate to login
+          // navigationService.replaceWithLoginView();
+          return UnauthorizedException();
+        }
 
         if (statusCode >= 500) {
           return ServerException(statusCode);

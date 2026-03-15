@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:tmdb_movies/app/app.bottomsheets.dart';
 import 'package:tmdb_movies/app/app.dialogs.dart';
@@ -11,7 +12,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setPathUrlStrategy();
+
   await setupLocator(stackedRouter: stackedRouter);
+  await dotenv.load(fileName: ".env");
   setupDialogUi();
   setupBottomSheetUi();
   runApp(const MainApp());

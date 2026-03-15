@@ -42,9 +42,9 @@ class SignInViewMobile extends ViewModelWidget<SignInViewModel> {
                 ),
                 verticalSpaceMedium,
                 AppTextField(
-                  controller: viewModel.emailController,
-                  labelText: 'Email Address',
-                  hintText: 'your@email.com',
+                  controller: viewModel.usernameController,
+                  labelText: 'Username',
+                  hintText: 'your_username',
                 ),
                 verticalSpaceSmall,
                 AppTextField(
@@ -54,14 +54,22 @@ class SignInViewMobile extends ViewModelWidget<SignInViewModel> {
                   isPassword: true,
                 ),
                 verticalSpaceSmall,
-                ElevatedButton(onPressed: () {}, child: const Text('Sign In')),
+                ElevatedButton(
+                        onPressed: () {
+                          viewModel.signIn();
+                        },
+                        child: const Text('Sign In'))
+                    .withLoading(viewModel.busy('signIn')),
                 verticalSpaceSmall,
                 const Text('OR', textAlign: TextAlign.center),
                 verticalSpaceSmall,
                 ElevatedButton(
-                    style: tertiaryButtonStyle,
-                    onPressed: () {},
-                    child: const Text('Login as Guest')),
+                        style: tertiaryButtonStyle,
+                        onPressed: () {
+                          viewModel.signInAsGuest();
+                        },
+                        child: const Text('Login as Guest'))
+                    .withLoading(viewModel.busy('guestSignIn')),
                 verticalSpaceMedium,
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Text(
@@ -70,7 +78,7 @@ class SignInViewMobile extends ViewModelWidget<SignInViewModel> {
                   ),
                   horizontalSpaceSmall,
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       viewModel.signUp();
                     },
                     child: Text(

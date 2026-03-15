@@ -1,3 +1,4 @@
+import 'package:tmdb_movies/network/api_client.dart';
 import 'package:tmdb_movies/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:tmdb_movies/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:tmdb_movies/ui/views/home/home_view.dart';
@@ -6,6 +7,8 @@ import 'package:tmdb_movies/ui/views/unknown/unknown_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tmdb_movies/ui/views/sign_in/sign_in_view.dart';
+import 'package:tmdb_movies/services/auth_service.dart';
+import 'package:tmdb_movies/services/local_data_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -25,7 +28,10 @@ import 'package:tmdb_movies/ui/views/sign_in/sign_in_view.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: RouterService),
-    // @stacked-service
+    LazySingleton(classType: AuthService),
+    LazySingleton(classType: ApiClient),
+    LazySingleton(classType: LocalDataService),
+// @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),

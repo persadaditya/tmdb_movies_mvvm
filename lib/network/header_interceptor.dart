@@ -8,26 +8,30 @@ class HeaderInterceptor extends InterceptorsWrapper {
   final logger = getLogger('interceptor');
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    getCustomHeaders().then((customHeader) {
-      options.headers.addAll(customHeader);
-    });
-    super.onRequest(options, handler);
-  }
-
-  Future<Map<String, dynamic>> getCustomHeaders() async {
-    return {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    options.headers.addAll({
       "Content-Type": "application/json",
       "Accept": "application/json",
-      'Authorization': 'Bearer $_apiKey',
-    };
+      "Authorization": "Bearer $_apiKey",
+    });
+
+    handler.next(options);
   }
 
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
-    final appException = DioErrorHandler.handle(err);
-    logger.e(err.toString, [err]);
-    return handler.reject(
-        DioException(requestOptions: err.requestOptions, error: appException));
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
+    final appException = await DioErrorHandler.handle(err);
+
+    logger.e(err.toString(), err);
+
+    handler.reject(
+      DioException(
+        requestOptions: err.requestOptions,
+        error: appException,
+        message: appException.message,
+        type: DioExceptionType.badResponse,
+      ),
+    );
   }
 }

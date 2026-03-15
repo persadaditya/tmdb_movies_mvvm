@@ -111,7 +111,7 @@ class AppTextField extends StackedView<AppTextFieldModel> {
   ) {
     return TextField(
         controller: controller,
-        obscureText: viewModel.obscureText,
+        obscureText: isPassword == true ? viewModel.obscureText : false,
         enabled: enabled,
         inputFormatters: inputFormatters,
         onSubmitted: onSubmitted,
@@ -122,7 +122,7 @@ class AppTextField extends StackedView<AppTextFieldModel> {
         textAlignVertical: textAlignVertical,
         textDirection: textDirection,
         minLines: minLines,
-        maxLines: maxLines,
+        maxLines: isPassword == true ? 1 : maxLines,
         expands: expands,
         readOnly: readOnly,
         onChanged: onChanged,
