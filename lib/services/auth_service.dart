@@ -98,4 +98,10 @@ class AuthService {
     await _localData.removeSession();
     await _localData.removeGuestSession();
   }
+
+  Future<bool> isSignedIn() async {
+    var session = await _localData.getSession();
+    var guestSession = await _localData.getGuestSession();
+    return session != null || guestSession != null;
+  }
 }

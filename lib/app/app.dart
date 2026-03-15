@@ -9,6 +9,10 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:tmdb_movies/ui/views/sign_in/sign_in_view.dart';
 import 'package:tmdb_movies/services/auth_service.dart';
 import 'package:tmdb_movies/services/local_data_service.dart';
+import 'package:tmdb_movies/ui/views/dashboard/dashboard_view.dart';
+import 'package:tmdb_movies/ui/views/search/search_view.dart';
+import 'package:tmdb_movies/ui/views/profile/profile_view.dart';
+import 'package:tmdb_movies/ui/views/wishlist/wishlist_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -17,6 +21,10 @@ import 'package:tmdb_movies/services/local_data_service.dart';
     CustomRoute(page: StartupView, initial: true),
     CustomRoute(page: HomeView),
     CustomRoute(page: SignInView),
+    CustomRoute(page: DashboardView),
+    CustomRoute(page: SearchView),
+    CustomRoute(page: ProfileView),
+    CustomRoute(page: WishlistView),
 // @stacked-route
 
     CustomRoute(page: UnknownView, path: '/404'),
