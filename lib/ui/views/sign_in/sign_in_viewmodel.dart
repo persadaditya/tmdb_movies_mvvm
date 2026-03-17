@@ -1,10 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tmdb_movies/app/app.locator.dart';
 import 'package:tmdb_movies/app/app.logger.dart';
+import 'package:tmdb_movies/app/app.router.dart';
 import 'package:tmdb_movies/network/exception/app_exception.dart';
 import 'package:tmdb_movies/services/auth_service.dart';
 import 'package:tmdb_movies/ui/common/ui_helpers.dart';
@@ -12,6 +11,7 @@ import 'package:tmdb_movies/ui/common/ui_helpers.dart';
 class SignInViewModel extends BaseViewModel {
   final authApi = locator<AuthService>();
   final _dialog = locator<DialogService>();
+  final _router = locator<RouterService>();
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -27,11 +27,15 @@ class SignInViewModel extends BaseViewModel {
           passwordController.text,
         ),
         busyObject: 'signIn');
+
+    _router.replaceWith(const DashboardViewRoute());
   }
 
   Future<void> signInAsGuest() async {
     await runBusyFuture(authApi.createGuestSession(),
         busyObject: 'guestSignIn');
+
+    _router.replaceWith(const DashboardViewRoute());
   }
 
   @override

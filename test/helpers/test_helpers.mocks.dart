@@ -21,6 +21,7 @@ import 'package:tmdb_movies/model/session_response.dart' as _i14;
 import 'package:tmdb_movies/model/token_response.dart' as _i13;
 import 'package:tmdb_movies/services/auth_service.dart' as _i12;
 import 'package:tmdb_movies/services/local_data_service.dart' as _i16;
+import 'package:tmdb_movies/services/user_service.dart' as _i17;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -774,3 +775,8 @@ class MockLocalDataService extends _i1.Mock implements _i16.LocalDataService {
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
 }
+
+/// A class which mocks [UserService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUserService extends _i1.Mock implements _i17.UserService {}

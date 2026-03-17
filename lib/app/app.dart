@@ -13,6 +13,7 @@ import 'package:tmdb_movies/ui/views/dashboard/dashboard_view.dart';
 import 'package:tmdb_movies/ui/views/search/search_view.dart';
 import 'package:tmdb_movies/ui/views/profile/profile_view.dart';
 import 'package:tmdb_movies/ui/views/wishlist/wishlist_view.dart';
+import 'package:tmdb_movies/services/user_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -39,6 +40,7 @@ import 'package:tmdb_movies/ui/views/wishlist/wishlist_view.dart';
     LazySingleton(classType: AuthService),
     LazySingleton(classType: ApiClient),
     LazySingleton(classType: LocalDataService),
+    LazySingleton(classType: UserService),
 // @stacked-service
   ],
   bottomsheets: [

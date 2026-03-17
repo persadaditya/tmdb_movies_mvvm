@@ -4,6 +4,7 @@ import 'package:tmdb_movies/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tmdb_movies/services/auth_service.dart';
 import 'package:tmdb_movies/services/local_data_service.dart';
+import 'package:tmdb_movies/services/user_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -14,6 +15,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<AuthService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<LocalDataService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<UserService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -22,6 +24,7 @@ void registerServices() {
   getAndRegisterDialogService();
   getAndRegisterAuthService();
   getAndRegisterLocalDataService();
+  getAndRegisterUserService();
 // @stacked-mock-register
 }
 
@@ -86,6 +89,13 @@ MockLocalDataService getAndRegisterLocalDataService() {
   _removeRegistrationIfExists<LocalDataService>();
   final service = MockLocalDataService();
   locator.registerSingleton<LocalDataService>(service);
+  return service;
+}
+
+MockUserService getAndRegisterUserService() {
+  _removeRegistrationIfExists<UserService>();
+  final service = MockUserService();
+  locator.registerSingleton<UserService>(service);
   return service;
 }
 // @stacked-mock-create
