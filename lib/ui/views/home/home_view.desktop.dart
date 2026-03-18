@@ -11,7 +11,7 @@ class HomeViewDesktop extends ViewModelWidget<HomeViewModel> {
 
   @override
   Widget build(BuildContext context, HomeViewModel viewModel) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: SizedBox(
           width: kdDesktopMaxContentWidth,
@@ -23,7 +23,7 @@ class HomeViewDesktop extends ViewModelWidget<HomeViewModel> {
               verticalSpaceLarge,
               Column(
                 children: [
-                  const Text(
+                  Text(
                     'Hello, DESKTOP UI!',
                     style: TextStyle(
                       fontSize: 35,
@@ -31,40 +31,11 @@ class HomeViewDesktop extends ViewModelWidget<HomeViewModel> {
                     ),
                   ),
                   verticalSpaceMedium,
-                  MaterialButton(
-                    color: Colors.black,
-                    onPressed: viewModel.incrementCounter,
-                    child: Text(
-                      viewModel.counterLabel,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MaterialButton(
-                    color: kcDarkGreyColor,
-                    onPressed: viewModel.showDialog,
-                    child: const Text(
-                      'Show Dialog',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  MaterialButton(
-                    color: kcDarkGreyColor,
-                    onPressed: viewModel.showBottomSheet,
-                    child: const Text(
-                      'Show Bottom Sheet',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
+                children: [],
               )
             ],
           ),

@@ -9,6 +9,7 @@ import 'dart:ui' as _i9;
 import 'package:dio/dio.dart' as _i3;
 import 'package:flutter/material.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i13;
 import 'package:stacked/stacked.dart' as _i2;
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart'
     as _i7;
@@ -16,11 +17,11 @@ import 'package:stacked_services/src/dialog/dialog_service.dart' as _i10;
 import 'package:stacked_services/src/models/overlay_request.dart' as _i11;
 import 'package:stacked_services/src/models/overlay_response.dart' as _i8;
 import 'package:stacked_services/src/navigation/router_service.dart' as _i4;
-import 'package:tmdb_movies/model/guest_session_response.dart' as _i15;
-import 'package:tmdb_movies/model/session_response.dart' as _i14;
-import 'package:tmdb_movies/model/token_response.dart' as _i13;
+import 'package:tmdb_movies/model/guest_session_response.dart' as _i14;
+import 'package:tmdb_movies/model/user.dart' as _i16;
 import 'package:tmdb_movies/services/auth_service.dart' as _i12;
-import 'package:tmdb_movies/services/local_data_service.dart' as _i16;
+import 'package:tmdb_movies/services/local_data_service.dart' as _i15;
+import 'package:tmdb_movies/services/movie_service.dart' as _i18;
 import 'package:tmdb_movies/services/user_service.dart' as _i17;
 
 // ignore_for_file: type=lint
@@ -624,45 +625,80 @@ class MockAuthService extends _i1.Mock implements _i12.AuthService {
       ) as _i3.Dio);
 
   @override
-  _i5.Future<_i13.TokenResponse?> createRequestToken() => (super.noSuchMethod(
+  _i5.Future<String?> createRequestToken() => (super.noSuchMethod(
         Invocation.method(
           #createRequestToken,
           [],
         ),
-        returnValue: _i5.Future<_i13.TokenResponse?>.value(),
-        returnValueForMissingStub: _i5.Future<_i13.TokenResponse?>.value(),
-      ) as _i5.Future<_i13.TokenResponse?>);
+        returnValue: _i5.Future<String?>.value(),
+        returnValueForMissingStub: _i5.Future<String?>.value(),
+      ) as _i5.Future<String?>);
 
   @override
-  _i5.Future<_i14.SessionResponse?> createSession(String? requestToken) =>
+  _i5.Future<String> validateLogin(
+    String? username,
+    String? password,
+    String? requestToken,
+  ) =>
       (super.noSuchMethod(
+        Invocation.method(
+          #validateLogin,
+          [
+            username,
+            password,
+            requestToken,
+          ],
+        ),
+        returnValue: _i5.Future<String>.value(_i13.dummyValue<String>(
+          this,
+          Invocation.method(
+            #validateLogin,
+            [
+              username,
+              password,
+              requestToken,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i13.dummyValue<String>(
+          this,
+          Invocation.method(
+            #validateLogin,
+            [
+              username,
+              password,
+              requestToken,
+            ],
+          ),
+        )),
+      ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<String> createSession(String? requestToken) => (super.noSuchMethod(
         Invocation.method(
           #createSession,
           [requestToken],
         ),
-        returnValue: _i5.Future<_i14.SessionResponse?>.value(),
-        returnValueForMissingStub: _i5.Future<_i14.SessionResponse?>.value(),
-      ) as _i5.Future<_i14.SessionResponse?>);
+        returnValue: _i5.Future<String>.value(_i13.dummyValue<String>(
+          this,
+          Invocation.method(
+            #createSession,
+            [requestToken],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i13.dummyValue<String>(
+          this,
+          Invocation.method(
+            #createSession,
+            [requestToken],
+          ),
+        )),
+      ) as _i5.Future<String>);
 
   @override
-  _i5.Future<_i13.TokenResponse?> createSessionWithLogin(
-    String? username,
-    String? password,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #createSessionWithLogin,
-          [
-            username,
-            password,
-          ],
-        ),
-        returnValue: _i5.Future<_i13.TokenResponse?>.value(),
-        returnValueForMissingStub: _i5.Future<_i13.TokenResponse?>.value(),
-      ) as _i5.Future<_i13.TokenResponse?>);
-
-  @override
-  _i5.Future<_i14.SessionResponse?> signIn(
+  _i5.Future<void> signIn(
     String? username,
     String? password,
   ) =>
@@ -674,21 +710,21 @@ class MockAuthService extends _i1.Mock implements _i12.AuthService {
             password,
           ],
         ),
-        returnValue: _i5.Future<_i14.SessionResponse?>.value(),
-        returnValueForMissingStub: _i5.Future<_i14.SessionResponse?>.value(),
-      ) as _i5.Future<_i14.SessionResponse?>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i5.Future<_i15.GuestSessionResponse?> createGuestSession() =>
+  _i5.Future<_i14.GuestSessionResponse?> createGuestSession() =>
       (super.noSuchMethod(
         Invocation.method(
           #createGuestSession,
           [],
         ),
-        returnValue: _i5.Future<_i15.GuestSessionResponse?>.value(),
+        returnValue: _i5.Future<_i14.GuestSessionResponse?>.value(),
         returnValueForMissingStub:
-            _i5.Future<_i15.GuestSessionResponse?>.value(),
-      ) as _i5.Future<_i15.GuestSessionResponse?>);
+            _i5.Future<_i14.GuestSessionResponse?>.value(),
+      ) as _i5.Future<_i14.GuestSessionResponse?>);
 
   @override
   _i5.Future<void> signOut() => (super.noSuchMethod(
@@ -714,7 +750,7 @@ class MockAuthService extends _i1.Mock implements _i12.AuthService {
 /// A class which mocks [LocalDataService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLocalDataService extends _i1.Mock implements _i16.LocalDataService {
+class MockLocalDataService extends _i1.Mock implements _i15.LocalDataService {
   @override
   _i5.Future<String?> getSession() => (super.noSuchMethod(
         Invocation.method(
@@ -774,9 +810,64 @@ class MockLocalDataService extends _i1.Mock implements _i16.LocalDataService {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<_i16.User?> getUser() => (super.noSuchMethod(
+        Invocation.method(
+          #getUser,
+          [],
+        ),
+        returnValue: _i5.Future<_i16.User?>.value(),
+        returnValueForMissingStub: _i5.Future<_i16.User?>.value(),
+      ) as _i5.Future<_i16.User?>);
+
+  @override
+  _i5.Future<void> setUser(_i16.User? user) => (super.noSuchMethod(
+        Invocation.method(
+          #setUser,
+          [user],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> removeUser() => (super.noSuchMethod(
+        Invocation.method(
+          #removeUser,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 }
 
 /// A class which mocks [UserService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserService extends _i1.Mock implements _i17.UserService {}
+class MockUserService extends _i1.Mock implements _i17.UserService {
+  @override
+  _i5.Future<_i16.User?> me() => (super.noSuchMethod(
+        Invocation.method(
+          #me,
+          [],
+        ),
+        returnValue: _i5.Future<_i16.User?>.value(),
+        returnValueForMissingStub: _i5.Future<_i16.User?>.value(),
+      ) as _i5.Future<_i16.User?>);
+
+  @override
+  _i5.Future<void> clearUser() => (super.noSuchMethod(
+        Invocation.method(
+          #clearUser,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+}
+
+/// A class which mocks [MovieService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMovieService extends _i1.Mock implements _i18.MovieService {}

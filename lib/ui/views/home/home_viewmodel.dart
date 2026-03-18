@@ -1,56 +1,89 @@
-import 'package:flutter/material.dart';
-import 'package:tmdb_movies/app/app.bottomsheets.dart';
-import 'package:tmdb_movies/app/app.dialogs.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tmdb_movies/app/app.locator.dart';
 import 'package:tmdb_movies/app/app.logger.dart';
 import 'package:tmdb_movies/app/app.router.dart';
+import 'package:tmdb_movies/model/genre.dart';
+import 'package:tmdb_movies/model/movie.dart';
 import 'package:tmdb_movies/model/user.dart';
 import 'package:tmdb_movies/network/exception/app_exception.dart';
 import 'package:tmdb_movies/services/auth_service.dart';
+import 'package:tmdb_movies/services/local_data_service.dart';
+import 'package:tmdb_movies/services/movie_service.dart';
 import 'package:tmdb_movies/services/user_service.dart';
-import 'package:tmdb_movies/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class HomeViewModel extends BaseViewModel {
+class HomeViewModel extends IndexTrackingViewModel {
   final _dialogService = locator<DialogService>();
-  final _bottomSheetService = locator<BottomSheetService>();
   final _userApi = locator<UserService>();
   final _authService = locator<AuthService>();
   final _logger = getLogger('HomeViewModel');
   final _route = locator<RouterService>();
+  final _movieApi = locator<MovieService>();
+  final _localDataService = locator<LocalDataService>();
+
+  final CarouselSliderController sliderController = CarouselSliderController();
 
   User? user;
 
-  String get counterLabel => 'Counter is: $_counter';
+  List<Movie> movies = [];
+  List<Movie> moviesByPopular = [];
+  List<Movie> moviesByTopRated = [];
 
-  int _counter = 0;
+  List<Genre> genres = [];
 
   Future<void> init() async {
     user = await runBusyFuture(_userApi.me(), busyObject: 'user');
+    loadMovies();
+    loadGenres();
+    loadPopularMovies();
+    loadTopRatedMovies();
     notifyListeners();
   }
 
-  void incrementCounter() async {
-    _counter++;
-    _userApi.clearUser();
-    rebuildUi();
+  Future<void> loadMovies() async {
+    var paginatedMovies = await runBusyFuture(
+        _movieApi.loadUpcomingMovies(page: 1),
+        busyObject: 'movies');
+    var result = paginatedMovies.results?.reversed.toList() ?? [];
+    var filtered = <Movie>[];
+    for (int i = 0; i < result.length; i++) {
+      if (i < 7) {
+        filtered.add(result[i]);
+      }
+    }
+    movies = filtered;
+    notifyListeners();
   }
 
-  void showDialog() {
-    _dialogService.showCustomDialog(
-      variant: DialogType.infoAlert,
-      title: 'Stacked Rocks!',
-      description: 'Give stacked $_counter stars on Github',
-    );
+  Future<void> loadPopularMovies() async {
+    var paginatedMovies = await runBusyFuture(
+        _movieApi.loadPopularMovies(page: 1),
+        busyObject: 'movies');
+    var result = paginatedMovies.results ?? [];
+    moviesByPopular = result;
+    notifyListeners();
   }
 
-  void showBottomSheet() {
-    _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.notice,
-      title: ksHomeBottomSheetTitle,
-      description: ksHomeBottomSheetDescription,
-    );
+  Future<void> loadTopRatedMovies() async {
+    var paginatedMovies = await runBusyFuture(
+        _movieApi.loadTopRatedMovies(page: 1),
+        busyObject: 'movies');
+    var result = paginatedMovies.results ?? [];
+    moviesByTopRated = result;
+    notifyListeners();
+  }
+
+  Future<void> loadGenres() async {
+    genres = await runBusyFuture(_movieApi.loadGenres(), busyObject: 'genres');
+    notifyListeners();
+  }
+
+  String getGenresName(List<int> ids) {
+    return genres
+        .where((genre) => ids.contains(genre.id))
+        .map((genre) => genre.name)
+        .join(', ');
   }
 
   void logout() async {

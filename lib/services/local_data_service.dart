@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tmdb_movies/model/genre.dart';
 import 'package:tmdb_movies/model/user.dart';
 
 class LocalDataService {
@@ -50,5 +51,32 @@ class LocalDataService {
   Future<void> removeUser() async {
     return SharedPreferences.getInstance()
         .then((prefs) => prefs.remove('user'));
+  }
+
+  Future<void> setGenreMovies(List<Genre> genres) async {
+    return SharedPreferences.getInstance()
+        .then((prefs) => prefs.setString('genres', jsonEncode(genres)));
+  }
+
+  Future<List<Genre>?> getGenreMovies() async {
+    var genres = await SharedPreferences.getInstance()
+        .then((prefs) => prefs.getString('genres'));
+    if (genres == null) return null;
+    return SharedPreferences.getInstance().then((prefs) =>
+        (jsonDecode(genres) as List)
+            .map((json) => Genre.fromJson(json))
+            .toList());
+  }
+
+  Future<String?> getGenreFromIds(List<int> ids) async {
+    var genres = await SharedPreferences.getInstance()
+        .then((prefs) => prefs.getString('genres'));
+    if (genres == null) return '';
+    return SharedPreferences.getInstance().then((prefs) =>
+        (jsonDecode(genres) as List)
+            .map((json) => Genre.fromJson(json))
+            .where((genre) => ids.contains(genre.id.toString()))
+            .map((genre) => genre.name)
+            .join(', '));
   }
 }
