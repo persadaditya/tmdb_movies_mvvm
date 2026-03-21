@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:tmdb_movies/model/user.dart';
 import 'package:tmdb_movies/ui/common/app_colors.dart';
 import 'package:tmdb_movies/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:tmdb_movies/ui/widgets/common/item/item_movie.dart';
 
 import 'home_viewmodel.dart';
 
@@ -46,30 +46,64 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
                       carouselController: viewModel.sliderController,
                       itemBuilder: (context, index, realIndex) {
                         var movie = viewModel.movies[index];
-                        return Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 6),
-                          alignment: Alignment.bottomLeft,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                opacity: 0.6,
-                                image: CachedNetworkImageProvider(
-                                    'https://image.tmdb.org/t/p/w500${movie.backdropPath}'),
-                                fit: BoxFit.cover),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                movie.title ?? '',
-                                style: textTheme.titleLarge
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                              ),
-                              Text('on ${movie.releaseDateFormatted}'),
-                              verticalSpaceSmall,
-                            ],
+                        return InkWell(
+                          onTap: () {
+                            viewModel.navigateToMovie(movie.id ?? 0);
+                          },
+                          child: Material(
+                            child: Stack(
+                              children: [
+                                CachedNetworkImage(
+                                  imageUrl:
+                                      'https://image.tmdb.org/t/p/w500${movie.backdropPath ?? movie.posterPath ?? ''}',
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) => Center(
+                                    child: Container(
+                                        height: double.infinity,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: appColorPrimaryDark),
+                                        child: const Icon(Icons.movie)),
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 6),
+                                  alignment: Alignment.bottomLeft,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        movie.title ?? '',
+                                        style: textTheme.titleLarge?.copyWith(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text('on ${movie.releaseDateFormatted}'),
+                                      verticalSpaceSmall,
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -159,57 +193,9 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 var movie = viewModel.moviesByPopular[index];
-                return Container(
-                  height: 200,
-                  margin: const EdgeInsets.only(right: 10),
-                  width: 140,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(10)),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.vertical(
-                            bottom: Radius.circular(10),
-                          ),
-                          color: appColorPrimarySoft,
-                        ),
-                        padding:
-                            const EdgeInsets.only(left: 5, top: 5, bottom: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              movie.title ?? '',
-                              style: textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            verticalSpaceTiny,
-                            Text(viewModel.getGenresName(movie.genreIds ?? []),
-                                style: textTheme.bodySmall?.copyWith(),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis),
-                            verticalSpaceTiny,
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                return ItemMovie(
+                  movie: movie,
+                  genres: viewModel.genres,
                 );
               }),
         ),
@@ -240,71 +226,10 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               var movie = viewModel.moviesByTopRated[index];
-              return Stack(
-                alignment: const Alignment(0.75, -0.95),
-                children: [
-                  Container(
-                    height: 210,
-                    margin: const EdgeInsets.only(right: 10),
-                    width: 140,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(10)),
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.vertical(
-                              bottom: Radius.circular(10),
-                            ),
-                            color: appColorPrimarySoft,
-                          ),
-                          padding:
-                              const EdgeInsets.only(left: 5, top: 5, bottom: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                movie.title ?? '',
-                                style: textTheme.titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              verticalSpaceTiny,
-                              Text(
-                                  viewModel.getGenresName(movie.genreIds ?? []),
-                                  style: textTheme.bodySmall?.copyWith(),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis),
-                              verticalSpaceTiny,
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundColor: appColorSecOrange,
-                    child: Text(
-                      '${movie.voteAverage?.toStringAsFixed(1)}',
-                      style: textTheme.bodyLarge?.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
+              return ItemMovie(
+                movie: movie,
+                genres: viewModel.genres,
+                withRating: true,
               );
             }),
       )

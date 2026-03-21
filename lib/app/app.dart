@@ -15,6 +15,7 @@ import 'package:tmdb_movies/ui/views/profile/profile_view.dart';
 import 'package:tmdb_movies/ui/views/wishlist/wishlist_view.dart';
 import 'package:tmdb_movies/services/user_service.dart';
 import 'package:tmdb_movies/services/movie_service.dart';
+import 'package:tmdb_movies/ui/views/movie/movie_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -27,6 +28,7 @@ import 'package:tmdb_movies/services/movie_service.dart';
     CustomRoute(page: SearchView),
     CustomRoute(page: ProfileView),
     CustomRoute(page: WishlistView),
+    CustomRoute(page: MovieView),
 // @stacked-route
 
     CustomRoute(page: UnknownView, path: '/404'),

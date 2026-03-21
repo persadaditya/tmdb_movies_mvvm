@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:tmdb_movies/app/app.locator.dart';
 import 'package:tmdb_movies/model/genre.dart';
 import 'package:tmdb_movies/model/movie.dart';
@@ -11,8 +12,13 @@ class MovieService {
   final _localDataService = locator<LocalDataService>();
 
   Future<Paginated<Movie>> loadUpcomingMovies({int page = 1}) async {
+    var dateBefore = DateFormat('yyyy-MM-dd')
+        .format(DateTime.now().add(const Duration(days: 1)));
+    var dateAfter = DateFormat('yyyy-MM-dd')
+        .format(DateTime.now().add(const Duration(days: 30)));
+
     final response = await _client.get(
-        'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_release_type=2|3&release_date.gte={${DateTime.now().add(const Duration(days: 1)).toIso8601String()}}&release_date.lte={${DateTime.now().add(const Duration(days: 14))}}',
+        'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&with_release_type=1|3&release_date.gte=$dateBefore&release_date.lte=$dateAfter}',
         queryParameters: {
           'page': page,
         });

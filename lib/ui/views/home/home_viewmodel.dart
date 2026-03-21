@@ -1,13 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tmdb_movies/app/app.locator.dart';
-import 'package:tmdb_movies/app/app.logger.dart';
 import 'package:tmdb_movies/app/app.router.dart';
 import 'package:tmdb_movies/model/genre.dart';
 import 'package:tmdb_movies/model/movie.dart';
 import 'package:tmdb_movies/model/user.dart';
 import 'package:tmdb_movies/network/exception/app_exception.dart';
 import 'package:tmdb_movies/services/auth_service.dart';
-import 'package:tmdb_movies/services/local_data_service.dart';
 import 'package:tmdb_movies/services/movie_service.dart';
 import 'package:tmdb_movies/services/user_service.dart';
 import 'package:stacked/stacked.dart';
@@ -17,10 +15,9 @@ class HomeViewModel extends IndexTrackingViewModel {
   final _dialogService = locator<DialogService>();
   final _userApi = locator<UserService>();
   final _authService = locator<AuthService>();
-  final _logger = getLogger('HomeViewModel');
   final _route = locator<RouterService>();
   final _movieApi = locator<MovieService>();
-  final _localDataService = locator<LocalDataService>();
+  final _routerService = locator<RouterService>();
 
   final CarouselSliderController sliderController = CarouselSliderController();
 
@@ -90,6 +87,10 @@ class HomeViewModel extends IndexTrackingViewModel {
     await _authService.signOut();
     notifyListeners();
     _route.replaceWith(const SignInViewRoute());
+  }
+
+  void navigateToMovie(int id) {
+    _routerService.navigateTo(MovieViewRoute(id: id));
   }
 
   @override
