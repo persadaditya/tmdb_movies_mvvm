@@ -1,14 +1,15 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tmdb_movies/app/app.locator.dart';
-import 'package:tmdb_movies/app/app.logger.dart';
 import 'package:tmdb_movies/app/app.router.dart';
 import 'package:tmdb_movies/model/cast_crew.dart';
 import 'package:tmdb_movies/model/movie.dart';
 import 'package:tmdb_movies/model/movie_image.dart';
+import 'package:tmdb_movies/model/review.dart';
 import 'package:tmdb_movies/network/exception/app_exception.dart';
 import 'package:tmdb_movies/services/cast_service.dart';
 import 'package:tmdb_movies/services/movie_service.dart';
+import 'package:tmdb_movies/services/review_service.dart';
 
 class MovieViewModel extends BaseViewModel {
   final int id;
@@ -19,6 +20,8 @@ class MovieViewModel extends BaseViewModel {
   final _castApi = locator<CastService>();
   final _dialogService = locator<DialogService>();
   final _routerService = locator<RouterService>();
+  final _reviewApi = locator<ReviewService>();
+
   Movie movie = Movie();
 
   bool seeMore = false;
@@ -46,6 +49,20 @@ class MovieViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  List<Movie> _movies = [];
+  List<Movie> get movies => _movies;
+  set movies(List<Movie> movies) {
+    _movies = movies;
+    notifyListeners();
+  }
+
+  List<Review> _reviews = [];
+  List<Review> get reviews => _reviews;
+  set reviews(List<Review> reviews) {
+    _reviews = reviews;
+    notifyListeners();
+  }
+
   Future<void> loadMovie() async {
     movie = await runBusyFuture(_movieApi.loadMovie(id), busyObject: 'movie');
     notifyListeners();
@@ -56,8 +73,6 @@ class MovieViewModel extends BaseViewModel {
         await runBusyFuture(_castApi.loadCast(id), busyObject: 'casts');
     casts = response?.cast ?? [];
     crews = response?.crew ?? [];
-
-    getLogger('MovieViewModel').d('cast: ${response?.cast} - ${response?.id}');
   }
 
   Future<void> loadImages() async {
@@ -73,6 +88,19 @@ class MovieViewModel extends BaseViewModel {
 
   void onTapMoreImages() {
     _routerService.navigateToGalleryView(movieImage: movieImage);
+  }
+
+  Future<void> loadSimilarMovies() async {
+    var response = await runBusyFuture(_movieApi.loadSimilarMovies(id),
+        busyObject: 'movies');
+    movies = response.results ?? [];
+    notifyListeners();
+  }
+
+  Future<void> loadReviews() async {
+    var response = await runBusyFuture(_reviewApi.loadMovieReviews(id),
+        busyObject: 'reviews');
+    reviews = response.results ?? [];
   }
 
   @override

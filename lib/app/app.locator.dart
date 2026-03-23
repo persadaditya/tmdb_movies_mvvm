@@ -16,6 +16,7 @@ import '../services/auth_service.dart';
 import '../services/cast_service.dart';
 import '../services/local_data_service.dart';
 import '../services/movie_service.dart';
+import '../services/review_service.dart';
 import '../services/user_service.dart';
 import 'app.router.dart';
 
@@ -40,6 +41,7 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => MovieService());
   locator.registerLazySingleton(() => CastService());
+  locator.registerLazySingleton(() => ReviewService());
   if (stackedRouter == null) {
     throw Exception(
         'Stacked is building to use the Router (Navigator 2.0) navigation but no stackedRouter is supplied. Pass the stackedRouter to the setupLocator function in main.dart');

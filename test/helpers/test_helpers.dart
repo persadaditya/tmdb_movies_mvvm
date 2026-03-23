@@ -7,6 +7,7 @@ import 'package:tmdb_movies/services/local_data_service.dart';
 import 'package:tmdb_movies/services/user_service.dart';
 import 'package:tmdb_movies/services/movie_service.dart';
 import 'package:tmdb_movies/services/cast_service.dart';
+import 'package:tmdb_movies/services/review_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -20,6 +21,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<UserService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<MovieService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<CastService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<ReviewService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -31,6 +33,7 @@ void registerServices() {
   getAndRegisterUserService();
   getAndRegisterMovieService();
   getAndRegisterCastService();
+  getAndRegisterReviewService();
 // @stacked-mock-register
 }
 
@@ -116,6 +119,13 @@ MockCastService getAndRegisterCastService() {
   _removeRegistrationIfExists<CastService>();
   final service = MockCastService();
   locator.registerSingleton<CastService>(service);
+  return service;
+}
+
+MockReviewService getAndRegisterReviewService() {
+  _removeRegistrationIfExists<ReviewService>();
+  final service = MockReviewService();
+  locator.registerSingleton<ReviewService>(service);
   return service;
 }
 // @stacked-mock-create

@@ -28,6 +28,7 @@ import 'package:tmdb_movies/services/auth_service.dart' as _i15;
 import 'package:tmdb_movies/services/cast_service.dart' as _i23;
 import 'package:tmdb_movies/services/local_data_service.dart' as _i18;
 import 'package:tmdb_movies/services/movie_service.dart' as _i22;
+import 'package:tmdb_movies/services/review_service.dart' as _i25;
 import 'package:tmdb_movies/services/user_service.dart' as _i21;
 
 // ignore_for_file: type=lint
@@ -1152,3 +1153,8 @@ class MockCastService extends _i1.Mock implements _i23.CastService {
         returnValueForMissingStub: _i8.Future<_i24.CastResponse?>.value(),
       ) as _i8.Future<_i24.CastResponse?>);
 }
+
+/// A class which mocks [ReviewService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockReviewService extends _i1.Mock implements _i25.ReviewService {}

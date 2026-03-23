@@ -45,10 +45,12 @@ class ItemMovie extends StatelessWidget {
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(10)),
                     child: CachedNetworkImage(
-                      imageUrl:
-                          'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                      fit: BoxFit.cover,
-                    ),
+                        imageUrl:
+                            'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                        fit: BoxFit.cover,
+                        errorWidget: (context, url, error) => const Icon(
+                              Icons.error,
+                            )),
                   ),
                 ),
                 Container(
@@ -66,14 +68,16 @@ class ItemMovie extends StatelessWidget {
                         movie.title ?? '',
                         style: textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
-                        maxLines: 1,
+                        maxLines: genres.isEmpty ? 2 : 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       verticalSpaceTiny,
-                      Text(getGenresName(movie.genreIds ?? []),
-                          style: textTheme.bodySmall?.copyWith(),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis),
+                      if (genres.isNotEmpty) ...[
+                        Text(getGenresName(movie.genreIds ?? []),
+                            style: textTheme.bodySmall?.copyWith(),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
+                      ],
                       verticalSpaceTiny,
                     ],
                   ),

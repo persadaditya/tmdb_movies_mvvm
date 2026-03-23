@@ -19,9 +19,16 @@ class MovieService {
         .format(DateTime.now().add(const Duration(days: 30)));
 
     final response = await _client.get(
-        'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&with_release_type=1|3&release_date.gte=$dateBefore&release_date.lte=$dateAfter}',
+        'https://api.themoviedb.org/3/discover/movie?with_release_type=1|3}',
         queryParameters: {
           'page': page,
+          'region': 'ID',
+          'language': 'en-US',
+          'include_adult': false,
+          'include_video': false,
+          'sort_by': 'primary_release_date.desc',
+          'release_date.gte': dateBefore,
+          'release_date.lte': dateAfter
         });
     return Paginated<Movie>.fromJson(
       response.data,
@@ -51,13 +58,19 @@ class MovieService {
 
   Future<Paginated<Movie>> loadNowPlayingMovies({int page = 1}) async {
     var dateBefore = DateFormat('yyyy-MM-dd')
-        .format(DateTime.now().add(const Duration(days: 2)));
+        .format(DateTime.now().subtract(const Duration(days: 7)));
     var dateAfter = DateFormat('yyyy-MM-dd')
-        .format(DateTime.now().add(const Duration(days: 3)));
+        .format(DateTime.now().add(const Duration(days: 7)));
     final response = await _client.get(
-        'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_release_type=2|3&release_date.gte=$dateBefore&release_date.lte=$dateAfter',
+        'https://api.themoviedb.org/3/discover/movie?with_release_type=2|3',
         queryParameters: {
           'page': page,
+          'include_adult': false,
+          'include_video': false,
+          'region': 'ID',
+          'sort_by': 'popularity.desc',
+          'release_date.gte': dateBefore,
+          'release_date.lte': dateAfter
         });
     return Paginated<Movie>.fromJson(
       response.data,
