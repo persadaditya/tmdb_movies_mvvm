@@ -23,6 +23,7 @@ import 'package:tmdb_movies/model/movie.dart' as _i5;
 import 'package:tmdb_movies/model/paginated.dart' as _i4;
 import 'package:tmdb_movies/model/user.dart' as _i18;
 import 'package:tmdb_movies/services/auth_service.dart' as _i14;
+import 'package:tmdb_movies/services/cast_service.dart' as _i22;
 import 'package:tmdb_movies/services/local_data_service.dart' as _i17;
 import 'package:tmdb_movies/services/movie_service.dart' as _i21;
 import 'package:tmdb_movies/services/user_service.dart' as _i20;
@@ -1101,3 +1102,8 @@ class MockMovieService extends _i1.Mock implements _i21.MovieService {
             _i7.Future<List<_i19.Genre>>.value(<_i19.Genre>[]),
       ) as _i7.Future<List<_i19.Genre>>);
 }
+
+/// A class which mocks [CastService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCastService extends _i1.Mock implements _i22.CastService {}

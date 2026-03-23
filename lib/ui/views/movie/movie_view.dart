@@ -19,7 +19,7 @@ class MovieView extends StackedView<MovieViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      body: viewModel.busy('movie')
+      body: viewModel.busy('movie') || viewModel.isBusy
           ? const Center(child: CircularProgressIndicator())
           : ScreenTypeLayout.builder(
               mobile: (_) => const MovieViewMobile(),
@@ -27,6 +27,13 @@ class MovieView extends StackedView<MovieViewModel> {
               desktop: (_) => const MovieViewDesktop(),
             ),
     );
+  }
+
+  @override
+  void onViewModelReady(MovieViewModel viewModel) async {
+    await viewModel.loadMovie();
+    await viewModel.loadCasts();
+    super.onViewModelReady(viewModel);
   }
 
   @override
