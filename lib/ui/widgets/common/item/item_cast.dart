@@ -20,6 +20,10 @@ class ItemCast extends StatelessWidget {
               backgroundImage: CachedNetworkImageProvider(
                   'https://image.tmdb.org/t/p/w500${cast.profilePath}'),
             ),
+          ] else ...[
+            const CircleAvatar(
+              child: Icon(Icons.person, color: Colors.white),
+            ),
           ],
           horizontalSpaceSmall,
           Column(
@@ -32,7 +36,7 @@ class ItemCast extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: textTheme.titleMedium,
               ),
-              Text(cast.character ?? cast.department?.name ?? '',
+              Text(cast.character ?? cast.job ?? cast.department?.name ?? '',
                   maxLines: 1, overflow: TextOverflow.ellipsis),
             ],
           ),

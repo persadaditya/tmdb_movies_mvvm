@@ -64,7 +64,7 @@ class HomeViewModel extends IndexTrackingViewModel {
 
   Future<void> loadTopRatedMovies() async {
     var paginatedMovies = await runBusyFuture(
-        _movieApi.loadTopRatedMovies(page: 1),
+        _movieApi.loadNowPlayingMovies(page: 1),
         busyObject: 'movies');
     var result = paginatedMovies.results ?? [];
     moviesByTopRated = result;

@@ -196,6 +196,7 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
                 return ItemMovie(
                   movie: movie,
                   genres: viewModel.genres,
+                  withRating: true,
                 );
               }),
         ),
@@ -208,7 +209,7 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Row(
         children: [
-          Text('Top Rated',
+          Text('Now Playing',
               style:
                   textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
           Expanded(child: Container()),
@@ -229,7 +230,6 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
               return ItemMovie(
                 movie: movie,
                 genres: viewModel.genres,
-                withRating: true,
               );
             }),
       )

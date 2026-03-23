@@ -17,6 +17,8 @@ import 'package:tmdb_movies/services/user_service.dart';
 import 'package:tmdb_movies/services/movie_service.dart';
 import 'package:tmdb_movies/ui/views/movie/movie_view.dart';
 import 'package:tmdb_movies/services/cast_service.dart';
+import 'package:tmdb_movies/ui/views/image/image_view.dart';
+import 'package:tmdb_movies/ui/views/gallery/gallery_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -30,6 +32,8 @@ import 'package:tmdb_movies/services/cast_service.dart';
     CustomRoute(page: ProfileView),
     CustomRoute(page: WishlistView),
     CustomRoute(page: MovieView),
+    CustomRoute(page: ImageView),
+    CustomRoute(page: GalleryView),
 // @stacked-route
 
     CustomRoute(page: UnknownView, path: '/404'),

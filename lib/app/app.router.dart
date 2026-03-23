@@ -5,31 +5,34 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i12;
-import 'package:stacked/stacked.dart' as _i11;
-import 'package:stacked_services/stacked_services.dart' as _i10;
+import 'package:flutter/material.dart' as _i14;
+import 'package:stacked/stacked.dart' as _i13;
+import 'package:stacked_services/stacked_services.dart' as _i12;
 
+import '../model/movie_image.dart' as _i15;
 import '../ui/views/dashboard/dashboard_view.dart' as _i4;
+import '../ui/views/gallery/gallery_view.dart' as _i10;
 import '../ui/views/home/home_view.dart' as _i2;
+import '../ui/views/image/image_view.dart' as _i9;
 import '../ui/views/movie/movie_view.dart' as _i8;
 import '../ui/views/profile/profile_view.dart' as _i6;
 import '../ui/views/search/search_view.dart' as _i5;
 import '../ui/views/sign_in/sign_in_view.dart' as _i3;
 import '../ui/views/startup/startup_view.dart' as _i1;
-import '../ui/views/unknown/unknown_view.dart' as _i9;
+import '../ui/views/unknown/unknown_view.dart' as _i11;
 import '../ui/views/wishlist/wishlist_view.dart' as _i7;
 
 final stackedRouter =
-    StackedRouterWeb(navigatorKey: _i10.StackedService.navigatorKey);
+    StackedRouterWeb(navigatorKey: _i12.StackedService.navigatorKey);
 
-class StackedRouterWeb extends _i11.RootStackRouter {
-  StackedRouterWeb({_i12.GlobalKey<_i12.NavigatorState>? navigatorKey})
+class StackedRouterWeb extends _i13.RootStackRouter {
+  StackedRouterWeb({_i14.GlobalKey<_i14.NavigatorState>? navigatorKey})
       : super(navigatorKey);
 
   @override
-  final Map<String, _i11.PageFactory> pagesMap = {
+  final Map<String, _i13.PageFactory> pagesMap = {
     StartupViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i13.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i1.StartupView(),
         opaque: true,
@@ -37,7 +40,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     HomeViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i13.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i2.HomeView(),
         opaque: true,
@@ -45,7 +48,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     SignInViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i13.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i3.SignInView(),
         opaque: true,
@@ -53,7 +56,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     DashboardViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i13.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i4.DashboardView(),
         opaque: true,
@@ -61,7 +64,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     SearchViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i13.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i5.SearchView(),
         opaque: true,
@@ -69,7 +72,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     ProfileViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i13.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i6.ProfileView(),
         opaque: true,
@@ -77,7 +80,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     WishlistViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i13.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i7.WishlistView(),
         opaque: true,
@@ -86,7 +89,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
     },
     MovieViewRoute.name: (routeData) {
       final args = routeData.argsAs<MovieViewArgs>();
-      return _i11.CustomPage<dynamic>(
+      return _i13.CustomPage<dynamic>(
         routeData: routeData,
         child: _i8.MovieView(
           key: args.key,
@@ -96,10 +99,34 @@ class StackedRouterWeb extends _i11.RootStackRouter {
         barrierDismissible: false,
       );
     },
-    UnknownViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+    ImageViewRoute.name: (routeData) {
+      final args = routeData.argsAs<ImageViewArgs>();
+      return _i13.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i9.UnknownView(),
+        child: _i9.ImageView(
+          key: args.key,
+          url: args.url,
+        ),
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
+    GalleryViewRoute.name: (routeData) {
+      final args = routeData.argsAs<GalleryViewArgs>();
+      return _i13.CustomPage<dynamic>(
+        routeData: routeData,
+        child: _i10.GalleryView(
+          key: args.key,
+          movieImage: args.movieImage,
+        ),
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
+    UnknownViewRoute.name: (routeData) {
+      return _i13.CustomPage<dynamic>(
+        routeData: routeData,
+        child: const _i11.UnknownView(),
         opaque: true,
         barrierDismissible: false,
       );
@@ -107,44 +134,52 @@ class StackedRouterWeb extends _i11.RootStackRouter {
   };
 
   @override
-  List<_i11.RouteConfig> get routes => [
-        _i11.RouteConfig(
+  List<_i13.RouteConfig> get routes => [
+        _i13.RouteConfig(
           StartupViewRoute.name,
           path: '/',
         ),
-        _i11.RouteConfig(
+        _i13.RouteConfig(
           HomeViewRoute.name,
           path: '/home-view',
         ),
-        _i11.RouteConfig(
+        _i13.RouteConfig(
           SignInViewRoute.name,
           path: '/sign-in-view',
         ),
-        _i11.RouteConfig(
+        _i13.RouteConfig(
           DashboardViewRoute.name,
           path: '/dashboard-view',
         ),
-        _i11.RouteConfig(
+        _i13.RouteConfig(
           SearchViewRoute.name,
           path: '/search-view',
         ),
-        _i11.RouteConfig(
+        _i13.RouteConfig(
           ProfileViewRoute.name,
           path: '/profile-view',
         ),
-        _i11.RouteConfig(
+        _i13.RouteConfig(
           WishlistViewRoute.name,
           path: '/wishlist-view',
         ),
-        _i11.RouteConfig(
+        _i13.RouteConfig(
           MovieViewRoute.name,
           path: '/movie-view',
         ),
-        _i11.RouteConfig(
+        _i13.RouteConfig(
+          ImageViewRoute.name,
+          path: '/image-view',
+        ),
+        _i13.RouteConfig(
+          GalleryViewRoute.name,
+          path: '/gallery-view',
+        ),
+        _i13.RouteConfig(
           UnknownViewRoute.name,
           path: '/404',
         ),
-        _i11.RouteConfig(
+        _i13.RouteConfig(
           '*#redirect',
           path: '*',
           redirectTo: '/404',
@@ -155,7 +190,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
 
 /// generated route for
 /// [_i1.StartupView]
-class StartupViewRoute extends _i11.PageRouteInfo<void> {
+class StartupViewRoute extends _i13.PageRouteInfo<void> {
   const StartupViewRoute()
       : super(
           StartupViewRoute.name,
@@ -167,7 +202,7 @@ class StartupViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.HomeView]
-class HomeViewRoute extends _i11.PageRouteInfo<void> {
+class HomeViewRoute extends _i13.PageRouteInfo<void> {
   const HomeViewRoute()
       : super(
           HomeViewRoute.name,
@@ -179,7 +214,7 @@ class HomeViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.SignInView]
-class SignInViewRoute extends _i11.PageRouteInfo<void> {
+class SignInViewRoute extends _i13.PageRouteInfo<void> {
   const SignInViewRoute()
       : super(
           SignInViewRoute.name,
@@ -191,7 +226,7 @@ class SignInViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.DashboardView]
-class DashboardViewRoute extends _i11.PageRouteInfo<void> {
+class DashboardViewRoute extends _i13.PageRouteInfo<void> {
   const DashboardViewRoute()
       : super(
           DashboardViewRoute.name,
@@ -203,7 +238,7 @@ class DashboardViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.SearchView]
-class SearchViewRoute extends _i11.PageRouteInfo<void> {
+class SearchViewRoute extends _i13.PageRouteInfo<void> {
   const SearchViewRoute()
       : super(
           SearchViewRoute.name,
@@ -215,7 +250,7 @@ class SearchViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.ProfileView]
-class ProfileViewRoute extends _i11.PageRouteInfo<void> {
+class ProfileViewRoute extends _i13.PageRouteInfo<void> {
   const ProfileViewRoute()
       : super(
           ProfileViewRoute.name,
@@ -227,7 +262,7 @@ class ProfileViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.WishlistView]
-class WishlistViewRoute extends _i11.PageRouteInfo<void> {
+class WishlistViewRoute extends _i13.PageRouteInfo<void> {
   const WishlistViewRoute()
       : super(
           WishlistViewRoute.name,
@@ -239,9 +274,9 @@ class WishlistViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.MovieView]
-class MovieViewRoute extends _i11.PageRouteInfo<MovieViewArgs> {
+class MovieViewRoute extends _i13.PageRouteInfo<MovieViewArgs> {
   MovieViewRoute({
-    _i12.Key? key,
+    _i14.Key? key,
     required int id,
   }) : super(
           MovieViewRoute.name,
@@ -261,7 +296,7 @@ class MovieViewArgs {
     required this.id,
   });
 
-  final _i12.Key? key;
+  final _i14.Key? key;
 
   final int id;
 
@@ -272,8 +307,76 @@ class MovieViewArgs {
 }
 
 /// generated route for
-/// [_i9.UnknownView]
-class UnknownViewRoute extends _i11.PageRouteInfo<void> {
+/// [_i9.ImageView]
+class ImageViewRoute extends _i13.PageRouteInfo<ImageViewArgs> {
+  ImageViewRoute({
+    _i14.Key? key,
+    required String url,
+  }) : super(
+          ImageViewRoute.name,
+          path: '/image-view',
+          args: ImageViewArgs(
+            key: key,
+            url: url,
+          ),
+        );
+
+  static const String name = 'ImageView';
+}
+
+class ImageViewArgs {
+  const ImageViewArgs({
+    this.key,
+    required this.url,
+  });
+
+  final _i14.Key? key;
+
+  final String url;
+
+  @override
+  String toString() {
+    return 'ImageViewArgs{key: $key, url: $url}';
+  }
+}
+
+/// generated route for
+/// [_i10.GalleryView]
+class GalleryViewRoute extends _i13.PageRouteInfo<GalleryViewArgs> {
+  GalleryViewRoute({
+    _i14.Key? key,
+    required _i15.MovieImage movieImage,
+  }) : super(
+          GalleryViewRoute.name,
+          path: '/gallery-view',
+          args: GalleryViewArgs(
+            key: key,
+            movieImage: movieImage,
+          ),
+        );
+
+  static const String name = 'GalleryView';
+}
+
+class GalleryViewArgs {
+  const GalleryViewArgs({
+    this.key,
+    required this.movieImage,
+  });
+
+  final _i14.Key? key;
+
+  final _i15.MovieImage movieImage;
+
+  @override
+  String toString() {
+    return 'GalleryViewArgs{key: $key, movieImage: $movieImage}';
+  }
+}
+
+/// generated route for
+/// [_i11.UnknownView]
+class UnknownViewRoute extends _i13.PageRouteInfo<void> {
   const UnknownViewRoute()
       : super(
           UnknownViewRoute.name,
@@ -283,9 +386,9 @@ class UnknownViewRoute extends _i11.PageRouteInfo<void> {
   static const String name = 'UnknownView';
 }
 
-extension RouterStateExtension on _i10.RouterService {
+extension RouterStateExtension on _i12.RouterService {
   Future<dynamic> navigateToStartupView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const StartupViewRoute(),
       onFailure: onFailure,
@@ -293,7 +396,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToHomeView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const HomeViewRoute(),
       onFailure: onFailure,
@@ -301,7 +404,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToSignInView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const SignInViewRoute(),
       onFailure: onFailure,
@@ -309,7 +412,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToDashboardView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const DashboardViewRoute(),
       onFailure: onFailure,
@@ -317,7 +420,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToSearchView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const SearchViewRoute(),
       onFailure: onFailure,
@@ -325,7 +428,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToProfileView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const ProfileViewRoute(),
       onFailure: onFailure,
@@ -333,7 +436,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToWishlistView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const WishlistViewRoute(),
       onFailure: onFailure,
@@ -341,9 +444,9 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToMovieView({
-    _i12.Key? key,
+    _i14.Key? key,
     required int id,
-    void Function(_i11.NavigationFailure)? onFailure,
+    void Function(_i13.NavigationFailure)? onFailure,
   }) async {
     return navigateTo(
       MovieViewRoute(
@@ -354,8 +457,36 @@ extension RouterStateExtension on _i10.RouterService {
     );
   }
 
+  Future<dynamic> navigateToImageView({
+    _i14.Key? key,
+    required String url,
+    void Function(_i13.NavigationFailure)? onFailure,
+  }) async {
+    return navigateTo(
+      ImageViewRoute(
+        key: key,
+        url: url,
+      ),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> navigateToGalleryView({
+    _i14.Key? key,
+    required _i15.MovieImage movieImage,
+    void Function(_i13.NavigationFailure)? onFailure,
+  }) async {
+    return navigateTo(
+      GalleryViewRoute(
+        key: key,
+        movieImage: movieImage,
+      ),
+      onFailure: onFailure,
+    );
+  }
+
   Future<dynamic> navigateToUnknownView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const UnknownViewRoute(),
       onFailure: onFailure,
@@ -363,7 +494,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithStartupView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const StartupViewRoute(),
       onFailure: onFailure,
@@ -371,7 +502,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithHomeView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const HomeViewRoute(),
       onFailure: onFailure,
@@ -379,7 +510,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithSignInView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const SignInViewRoute(),
       onFailure: onFailure,
@@ -387,7 +518,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithDashboardView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const DashboardViewRoute(),
       onFailure: onFailure,
@@ -395,7 +526,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithSearchView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const SearchViewRoute(),
       onFailure: onFailure,
@@ -403,7 +534,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithProfileView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const ProfileViewRoute(),
       onFailure: onFailure,
@@ -411,7 +542,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithWishlistView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const WishlistViewRoute(),
       onFailure: onFailure,
@@ -419,9 +550,9 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithMovieView({
-    _i12.Key? key,
+    _i14.Key? key,
     required int id,
-    void Function(_i11.NavigationFailure)? onFailure,
+    void Function(_i13.NavigationFailure)? onFailure,
   }) async {
     return replaceWith(
       MovieViewRoute(
@@ -432,8 +563,36 @@ extension RouterStateExtension on _i10.RouterService {
     );
   }
 
+  Future<dynamic> replaceWithImageView({
+    _i14.Key? key,
+    required String url,
+    void Function(_i13.NavigationFailure)? onFailure,
+  }) async {
+    return replaceWith(
+      ImageViewRoute(
+        key: key,
+        url: url,
+      ),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> replaceWithGalleryView({
+    _i14.Key? key,
+    required _i15.MovieImage movieImage,
+    void Function(_i13.NavigationFailure)? onFailure,
+  }) async {
+    return replaceWith(
+      GalleryViewRoute(
+        key: key,
+        movieImage: movieImage,
+      ),
+      onFailure: onFailure,
+    );
+  }
+
   Future<dynamic> replaceWithUnknownView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i13.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const UnknownViewRoute(),
       onFailure: onFailure,

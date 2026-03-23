@@ -33,6 +33,7 @@ class MovieView extends StackedView<MovieViewModel> {
   void onViewModelReady(MovieViewModel viewModel) async {
     await viewModel.loadMovie();
     await viewModel.loadCasts();
+    await viewModel.loadImages();
     super.onViewModelReady(viewModel);
   }
 

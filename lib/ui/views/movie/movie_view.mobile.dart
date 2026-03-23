@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tmdb_movies/ui/common/app_colors.dart';
+import 'package:tmdb_movies/ui/common/app_theme.dart';
 import 'package:tmdb_movies/ui/common/ui_helpers.dart';
 import 'package:tmdb_movies/ui/widgets/common/item/item_cast.dart';
 
@@ -31,7 +32,7 @@ class MovieViewMobile extends ViewModelWidget<MovieViewModel> {
               width: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  opacity: 0.15,
+                  opacity: 0.10,
                   image: CachedNetworkImageProvider(
                       'https://image.tmdb.org/t/p/w500${viewModel.movie.posterPath ?? ''}'),
                   fit: BoxFit.cover,
@@ -79,6 +80,33 @@ class MovieViewMobile extends ViewModelWidget<MovieViewModel> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
+                  verticalSpaceSmall,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(child: Container()),
+                      ElevatedButton.icon(
+                          style: secondaryButtonStyle,
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.movie,
+                            color: kcWhite,
+                          ),
+                          label: const Text('Trailers')),
+                      horizontalSpaceMedium,
+                      CircleAvatar(
+                        child: IconButton(
+                            onPressed: () {}, icon: const Icon(Icons.download)),
+                      ),
+                      horizontalSpaceMedium,
+                      CircleAvatar(
+                        child: IconButton(
+                            onPressed: () {}, icon: const Icon(Icons.share)),
+                      ),
+                      Expanded(child: Container()),
+                    ],
+                  ),
+                  verticalSpaceMedium,
                   Text(
                     'Genres',
                     style: textTheme.bodyLarge
@@ -121,7 +149,7 @@ class MovieViewMobile extends ViewModelWidget<MovieViewModel> {
                     ],
                   ),
                   verticalSpaceMedium,
-                  Text('Casts', style: textTheme.bodyLarge),
+                  _buildTitle(context, 'Cast'),
                   verticalSpaceSmall,
                   SizedBox(
                     height: 60,
@@ -133,6 +161,76 @@ class MovieViewMobile extends ViewModelWidget<MovieViewModel> {
                           return ItemCast(cast: cast);
                         }),
                   ),
+                  verticalSpaceMedium,
+                  _buildTitle(context, 'Crews'),
+                  verticalSpaceSmall,
+                  SizedBox(
+                    height: 60,
+                    child: ListView.builder(
+                        itemCount: viewModel.crews.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          var cast = viewModel.crews[index];
+                          return ItemCast(cast: cast);
+                        }),
+                  ),
+                  verticalSpaceMedium,
+                  _buildTitle(context, 'Gallery', onTapMore: () {
+                    viewModel.onTapMoreImages();
+                  }),
+                  verticalSpaceSmall,
+                  GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              mainAxisSpacing: 8,
+                              crossAxisSpacing: 8),
+                      itemCount: viewModel.images.length > 6
+                          ? 6
+                          : viewModel.images.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        var image = viewModel.images[index];
+                        return InkWell(
+                          onTap: () {
+                            if (image.filePath == null) return;
+                            viewModel.onTapImage(
+                                'https://image.tmdb.org/t/p/w500${image.filePath}');
+                          },
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                'https://image.tmdb.org/t/p/w500${image.filePath}',
+                            imageBuilder: (context, imageProvider) =>
+                                AspectRatio(
+                              aspectRatio: image.aspectRatio ?? 1,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            placeholder: (context, url) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.grey,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.grey,
+                              ),
+                            ),
+                            fit: BoxFit.contain,
+                          ),
+                        );
+                      }),
                 ],
               ),
               verticalSpaceLarge,
@@ -153,6 +251,31 @@ class MovieViewMobile extends ViewModelWidget<MovieViewModel> {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
+      ],
+    );
+  }
+
+  Widget _buildTitle(BuildContext context, String title,
+      {Function()? onTapMore}) {
+    final textTheme = Theme.of(context).textTheme;
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            title,
+            style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w900),
+          ),
+        ),
+        horizontalSpaceMedium,
+        if (onTapMore != null) ...[
+          TextButton(
+              onPressed: () {
+                onTapMore();
+              },
+              child: const Text(
+                'See all',
+              ))
+        ],
       ],
     );
   }
