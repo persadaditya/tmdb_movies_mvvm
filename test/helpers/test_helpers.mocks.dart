@@ -23,12 +23,15 @@ import 'package:tmdb_movies/model/guest_session_response.dart' as _i17;
 import 'package:tmdb_movies/model/movie.dart' as _i5;
 import 'package:tmdb_movies/model/movie_image.dart' as _i6;
 import 'package:tmdb_movies/model/paginated.dart' as _i4;
+import 'package:tmdb_movies/model/review.dart' as _i26;
+import 'package:tmdb_movies/model/trailer.dart' as _i28;
 import 'package:tmdb_movies/model/user.dart' as _i19;
 import 'package:tmdb_movies/services/auth_service.dart' as _i15;
 import 'package:tmdb_movies/services/cast_service.dart' as _i23;
 import 'package:tmdb_movies/services/local_data_service.dart' as _i18;
 import 'package:tmdb_movies/services/movie_service.dart' as _i22;
 import 'package:tmdb_movies/services/review_service.dart' as _i25;
+import 'package:tmdb_movies/services/trailer_service.dart' as _i27;
 import 'package:tmdb_movies/services/user_service.dart' as _i21;
 
 // ignore_for_file: type=lint
@@ -1157,4 +1160,66 @@ class MockCastService extends _i1.Mock implements _i23.CastService {
 /// A class which mocks [ReviewService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockReviewService extends _i1.Mock implements _i25.ReviewService {}
+class MockReviewService extends _i1.Mock implements _i25.ReviewService {
+  @override
+  _i8.Future<_i4.Paginated<_i26.Review>> loadMovieReviews(
+    int? id, {
+    int? page = 1,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #loadMovieReviews,
+          [id],
+          {#page: page},
+        ),
+        returnValue: _i8.Future<_i4.Paginated<_i26.Review>>.value(
+            _FakePaginated_4<_i26.Review>(
+          this,
+          Invocation.method(
+            #loadMovieReviews,
+            [id],
+            {#page: page},
+          ),
+        )),
+        returnValueForMissingStub: _i8.Future<_i4.Paginated<_i26.Review>>.value(
+            _FakePaginated_4<_i26.Review>(
+          this,
+          Invocation.method(
+            #loadMovieReviews,
+            [id],
+            {#page: page},
+          ),
+        )),
+      ) as _i8.Future<_i4.Paginated<_i26.Review>>);
+}
+
+/// A class which mocks [TrailerService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTrailerService extends _i1.Mock implements _i27.TrailerService {
+  @override
+  _i8.Future<_i4.Paginated<_i28.Trailer>> loadTrailers(int? movieId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #loadTrailers,
+          [movieId],
+        ),
+        returnValue: _i8.Future<_i4.Paginated<_i28.Trailer>>.value(
+            _FakePaginated_4<_i28.Trailer>(
+          this,
+          Invocation.method(
+            #loadTrailers,
+            [movieId],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i8.Future<_i4.Paginated<_i28.Trailer>>.value(
+                _FakePaginated_4<_i28.Trailer>(
+          this,
+          Invocation.method(
+            #loadTrailers,
+            [movieId],
+          ),
+        )),
+      ) as _i8.Future<_i4.Paginated<_i28.Trailer>>);
+}

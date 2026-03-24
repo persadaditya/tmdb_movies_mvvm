@@ -20,6 +20,9 @@ import 'package:tmdb_movies/services/cast_service.dart';
 import 'package:tmdb_movies/ui/views/image/image_view.dart';
 import 'package:tmdb_movies/ui/views/gallery/gallery_view.dart';
 import 'package:tmdb_movies/services/review_service.dart';
+import 'package:tmdb_movies/services/trailer_service.dart';
+import 'package:tmdb_movies/ui/views/trailers/trailers_view.dart';
+import 'package:tmdb_movies/ui/views/video/video_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -35,6 +38,8 @@ import 'package:tmdb_movies/services/review_service.dart';
     CustomRoute(page: MovieView),
     CustomRoute(page: ImageView),
     CustomRoute(page: GalleryView),
+    CustomRoute(page: TrailersView),
+    CustomRoute(page: VideoView),
 // @stacked-route
 
     CustomRoute(page: UnknownView, path: '/404'),
@@ -53,6 +58,7 @@ import 'package:tmdb_movies/services/review_service.dart';
     LazySingleton(classType: MovieService),
     LazySingleton(classType: CastService),
     LazySingleton(classType: ReviewService),
+    LazySingleton(classType: TrailerService),
 // @stacked-service
   ],
   bottomsheets: [

@@ -91,7 +91,9 @@ class MovieViewMobile extends ViewModelWidget<MovieViewModel> {
                       Expanded(child: Container()),
                       ElevatedButton.icon(
                           style: secondaryButtonStyle,
-                          onPressed: () {},
+                          onPressed: () {
+                            viewModel.onTapTrailer();
+                          },
                           icon: const Icon(
                             Icons.movie,
                             color: kcWhite,

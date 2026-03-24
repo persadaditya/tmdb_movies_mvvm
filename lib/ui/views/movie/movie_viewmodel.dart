@@ -103,6 +103,10 @@ class MovieViewModel extends BaseViewModel {
     reviews = response.results ?? [];
   }
 
+  void onTapTrailer() {
+    _routerService.navigateToTrailersView(movieId: id);
+  }
+
   @override
   void onFutureError(error, Object? key) {
     if (error.error is AppException) {
