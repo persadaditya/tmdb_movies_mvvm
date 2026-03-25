@@ -198,12 +198,14 @@ class Movie {
 
   DateTime? get releaseDateParsed {
     if (releaseDate == null) return null;
-    return DateTime.parse(releaseDate ?? '');
+    return DateTime.tryParse(releaseDate ?? '');
   }
 
   String? get releaseDateFormatted {
     if (releaseDate == null) return null;
-    return DateFormat("MMMM d, yyyy").format(DateTime.parse(releaseDate ?? ''));
+    var parsed = DateTime.tryParse(releaseDate ?? '');
+    if (parsed == null) return null;
+    return DateFormat("MMMM d, yyyy").format(parsed);
   }
 
   String? get genreFromIds {

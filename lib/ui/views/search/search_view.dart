@@ -24,6 +24,13 @@ class SearchView extends StackedView<SearchViewModel> {
   }
 
   @override
+  void onViewModelReady(SearchViewModel viewModel) {
+    viewModel.loadLatestMovie();
+    viewModel.loadGenres();
+    super.onViewModelReady(viewModel);
+  }
+
+  @override
   SearchViewModel viewModelBuilder(
     BuildContext context,
   ) =>

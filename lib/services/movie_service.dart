@@ -113,4 +113,38 @@ class MovieService {
       rethrow;
     }
   }
+
+  Future<Movie> loadLatestMovie() async {
+    final response = await _client.get('/movie/latest');
+    return Movie.fromJson(response.data);
+  }
+
+  Future<Paginated<Movie>> loadSearchMovies(String query,
+      {int page = 1,
+      String? language,
+      String? region,
+      bool? includeAdult,
+      DateTime? primaryReleaseYear}) async {
+    try {
+      Map<String, dynamic> queryParameters = {
+        'query': query,
+        'page': page,
+        'region': region ?? 'ID',
+        'language': language ?? 'en-US',
+        if (includeAdult != null) 'include_adult': includeAdult,
+        if (primaryReleaseYear != null)
+          'primary_release_year':
+              DateFormat('yyyy-MM-dd').format(primaryReleaseYear)
+      };
+
+      final response =
+          await _client.get('/search/movie', queryParameters: queryParameters);
+      return Paginated<Movie>.fromJson(
+        response.data,
+        (json) => Movie.fromJson(json),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
