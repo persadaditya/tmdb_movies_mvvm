@@ -11,9 +11,13 @@ class ItemCompany extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: company.logoPath == null
+          ? MainAxisAlignment.center
+          : MainAxisAlignment.start,
       children: [
         if (company.logoPath != null) ...[
-          CachedNetworkImage(
+          Expanded(
+              child: CachedNetworkImage(
             imageUrl: 'https://image.tmdb.org/t/p/w500${company.logoPath}',
             imageBuilder: (context, imageProvider) => Container(
               height: 80,
@@ -25,7 +29,7 @@ class ItemCompany extends StatelessWidget {
                     invertColors: true),
               ),
             ),
-          )
+          ))
         ],
         verticalSpaceSmall,
         Text(company.name ?? '',

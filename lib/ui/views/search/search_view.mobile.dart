@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:tmdb_movies/model/movie.dart';
 import 'package:tmdb_movies/ui/common/app_colors.dart';
 import 'package:tmdb_movies/ui/common/ui_helpers.dart';
 import 'package:tmdb_movies/ui/widgets/common/item/item_movie_vert.dart';

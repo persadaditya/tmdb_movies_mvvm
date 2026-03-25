@@ -190,10 +190,12 @@ class MovieViewMobile extends ViewModelWidget<MovieViewModel> {
                         }),
                   ),
                   verticalSpaceMedium,
-                  _buildTitle(context, 'Gallery', onTapMore: () {
-                    viewModel.onTapMoreImages();
-                  }),
-                  verticalSpaceSmall,
+                  if (viewModel.images.isNotEmpty) ...[
+                    _buildTitle(context, 'Images', onTapMore: () {
+                      viewModel.onTapMoreImages();
+                    }),
+                    verticalSpaceSmall,
+                  ],
                   viewModel.busy('images')
                       ? const Center(
                           child: SizedBox(
@@ -293,8 +295,10 @@ class MovieViewMobile extends ViewModelWidget<MovieViewModel> {
                               }),
                   verticalSpaceMedium,
                   verticalSpaceSmall,
-                  _buildTitle(context, 'Related Movies'),
-                  verticalSpaceMedium,
+                  if (viewModel.movies.isNotEmpty) ...[
+                    _buildTitle(context, 'Related Movies'),
+                    verticalSpaceMedium,
+                  ],
                   viewModel.busy('movies')
                       ? const Center(
                           child: SizedBox(
