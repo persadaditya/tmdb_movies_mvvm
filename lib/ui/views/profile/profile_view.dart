@@ -24,6 +24,13 @@ class ProfileView extends StackedView<ProfileViewModel> {
   }
 
   @override
+  void onViewModelReady(ProfileViewModel viewModel) {
+    viewModel.loadUser();
+    viewModel.loadCountry();
+    super.onViewModelReady(viewModel);
+  }
+
+  @override
   ProfileViewModel viewModelBuilder(
     BuildContext context,
   ) =>

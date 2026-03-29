@@ -17,22 +17,24 @@ import 'package:stacked_services/src/dialog/dialog_service.dart' as _i13;
 import 'package:stacked_services/src/models/overlay_request.dart' as _i14;
 import 'package:stacked_services/src/models/overlay_response.dart' as _i11;
 import 'package:stacked_services/src/navigation/router_service.dart' as _i7;
-import 'package:tmdb_movies/model/cast_crew.dart' as _i24;
+import 'package:tmdb_movies/model/cast_crew.dart' as _i25;
+import 'package:tmdb_movies/model/country.dart' as _i21;
 import 'package:tmdb_movies/model/genre.dart' as _i20;
 import 'package:tmdb_movies/model/guest_session_response.dart' as _i17;
 import 'package:tmdb_movies/model/movie.dart' as _i5;
 import 'package:tmdb_movies/model/movie_image.dart' as _i6;
 import 'package:tmdb_movies/model/paginated.dart' as _i4;
-import 'package:tmdb_movies/model/review.dart' as _i26;
-import 'package:tmdb_movies/model/trailer.dart' as _i28;
+import 'package:tmdb_movies/model/review.dart' as _i27;
+import 'package:tmdb_movies/model/trailer.dart' as _i29;
 import 'package:tmdb_movies/model/user.dart' as _i19;
 import 'package:tmdb_movies/services/auth_service.dart' as _i15;
-import 'package:tmdb_movies/services/cast_service.dart' as _i23;
+import 'package:tmdb_movies/services/cast_service.dart' as _i24;
+import 'package:tmdb_movies/services/configuration_service.dart' as _i30;
 import 'package:tmdb_movies/services/local_data_service.dart' as _i18;
-import 'package:tmdb_movies/services/movie_service.dart' as _i22;
-import 'package:tmdb_movies/services/review_service.dart' as _i25;
-import 'package:tmdb_movies/services/trailer_service.dart' as _i27;
-import 'package:tmdb_movies/services/user_service.dart' as _i21;
+import 'package:tmdb_movies/services/movie_service.dart' as _i23;
+import 'package:tmdb_movies/services/review_service.dart' as _i26;
+import 'package:tmdb_movies/services/trailer_service.dart' as _i28;
+import 'package:tmdb_movies/services/user_service.dart' as _i22;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -911,12 +913,32 @@ class MockLocalDataService extends _i1.Mock implements _i18.LocalDataService {
         returnValue: _i8.Future<String?>.value(),
         returnValueForMissingStub: _i8.Future<String?>.value(),
       ) as _i8.Future<String?>);
+
+  @override
+  _i8.Future<void> setCountry(_i21.Country? country) => (super.noSuchMethod(
+        Invocation.method(
+          #setCountry,
+          [country],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<_i21.Country?> getCountry() => (super.noSuchMethod(
+        Invocation.method(
+          #getCountry,
+          [],
+        ),
+        returnValue: _i8.Future<_i21.Country?>.value(),
+        returnValueForMissingStub: _i8.Future<_i21.Country?>.value(),
+      ) as _i8.Future<_i21.Country?>);
 }
 
 /// A class which mocks [UserService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserService extends _i1.Mock implements _i21.UserService {
+class MockUserService extends _i1.Mock implements _i22.UserService {
   @override
   _i8.Future<_i19.User?> me() => (super.noSuchMethod(
         Invocation.method(
@@ -941,7 +963,7 @@ class MockUserService extends _i1.Mock implements _i21.UserService {
 /// A class which mocks [MovieService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMovieService extends _i1.Mock implements _i22.MovieService {
+class MockMovieService extends _i1.Mock implements _i23.MovieService {
   @override
   _i8.Future<_i4.Paginated<_i5.Movie>> loadUpcomingMovies({int? page = 1}) =>
       (super.noSuchMethod(
@@ -1140,29 +1162,104 @@ class MockMovieService extends _i1.Mock implements _i22.MovieService {
           ),
         )),
       ) as _i8.Future<_i6.MovieImage>);
+
+  @override
+  _i8.Future<_i5.Movie> loadLatestMovie() => (super.noSuchMethod(
+        Invocation.method(
+          #loadLatestMovie,
+          [],
+        ),
+        returnValue: _i8.Future<_i5.Movie>.value(_FakeMovie_5(
+          this,
+          Invocation.method(
+            #loadLatestMovie,
+            [],
+          ),
+        )),
+        returnValueForMissingStub: _i8.Future<_i5.Movie>.value(_FakeMovie_5(
+          this,
+          Invocation.method(
+            #loadLatestMovie,
+            [],
+          ),
+        )),
+      ) as _i8.Future<_i5.Movie>);
+
+  @override
+  _i8.Future<_i4.Paginated<_i5.Movie>> loadSearchMovies(
+    String? query, {
+    int? page = 1,
+    String? language,
+    String? region,
+    bool? includeAdult,
+    DateTime? primaryReleaseYear,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #loadSearchMovies,
+          [query],
+          {
+            #page: page,
+            #language: language,
+            #region: region,
+            #includeAdult: includeAdult,
+            #primaryReleaseYear: primaryReleaseYear,
+          },
+        ),
+        returnValue: _i8.Future<_i4.Paginated<_i5.Movie>>.value(
+            _FakePaginated_4<_i5.Movie>(
+          this,
+          Invocation.method(
+            #loadSearchMovies,
+            [query],
+            {
+              #page: page,
+              #language: language,
+              #region: region,
+              #includeAdult: includeAdult,
+              #primaryReleaseYear: primaryReleaseYear,
+            },
+          ),
+        )),
+        returnValueForMissingStub: _i8.Future<_i4.Paginated<_i5.Movie>>.value(
+            _FakePaginated_4<_i5.Movie>(
+          this,
+          Invocation.method(
+            #loadSearchMovies,
+            [query],
+            {
+              #page: page,
+              #language: language,
+              #region: region,
+              #includeAdult: includeAdult,
+              #primaryReleaseYear: primaryReleaseYear,
+            },
+          ),
+        )),
+      ) as _i8.Future<_i4.Paginated<_i5.Movie>>);
 }
 
 /// A class which mocks [CastService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCastService extends _i1.Mock implements _i23.CastService {
+class MockCastService extends _i1.Mock implements _i24.CastService {
   @override
-  _i8.Future<_i24.CastResponse?> loadCast(int? id) => (super.noSuchMethod(
+  _i8.Future<_i25.CastResponse?> loadCast(int? id) => (super.noSuchMethod(
         Invocation.method(
           #loadCast,
           [id],
         ),
-        returnValue: _i8.Future<_i24.CastResponse?>.value(),
-        returnValueForMissingStub: _i8.Future<_i24.CastResponse?>.value(),
-      ) as _i8.Future<_i24.CastResponse?>);
+        returnValue: _i8.Future<_i25.CastResponse?>.value(),
+        returnValueForMissingStub: _i8.Future<_i25.CastResponse?>.value(),
+      ) as _i8.Future<_i25.CastResponse?>);
 }
 
 /// A class which mocks [ReviewService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockReviewService extends _i1.Mock implements _i25.ReviewService {
+class MockReviewService extends _i1.Mock implements _i26.ReviewService {
   @override
-  _i8.Future<_i4.Paginated<_i26.Review>> loadMovieReviews(
+  _i8.Future<_i4.Paginated<_i27.Review>> loadMovieReviews(
     int? id, {
     int? page = 1,
   }) =>
@@ -1172,8 +1269,8 @@ class MockReviewService extends _i1.Mock implements _i25.ReviewService {
           [id],
           {#page: page},
         ),
-        returnValue: _i8.Future<_i4.Paginated<_i26.Review>>.value(
-            _FakePaginated_4<_i26.Review>(
+        returnValue: _i8.Future<_i4.Paginated<_i27.Review>>.value(
+            _FakePaginated_4<_i27.Review>(
           this,
           Invocation.method(
             #loadMovieReviews,
@@ -1181,8 +1278,8 @@ class MockReviewService extends _i1.Mock implements _i25.ReviewService {
             {#page: page},
           ),
         )),
-        returnValueForMissingStub: _i8.Future<_i4.Paginated<_i26.Review>>.value(
-            _FakePaginated_4<_i26.Review>(
+        returnValueForMissingStub: _i8.Future<_i4.Paginated<_i27.Review>>.value(
+            _FakePaginated_4<_i27.Review>(
           this,
           Invocation.method(
             #loadMovieReviews,
@@ -1190,22 +1287,22 @@ class MockReviewService extends _i1.Mock implements _i25.ReviewService {
             {#page: page},
           ),
         )),
-      ) as _i8.Future<_i4.Paginated<_i26.Review>>);
+      ) as _i8.Future<_i4.Paginated<_i27.Review>>);
 }
 
 /// A class which mocks [TrailerService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockTrailerService extends _i1.Mock implements _i27.TrailerService {
+class MockTrailerService extends _i1.Mock implements _i28.TrailerService {
   @override
-  _i8.Future<_i4.Paginated<_i28.Trailer>> loadTrailers(int? movieId) =>
+  _i8.Future<_i4.Paginated<_i29.Trailer>> loadTrailers(int? movieId) =>
       (super.noSuchMethod(
         Invocation.method(
           #loadTrailers,
           [movieId],
         ),
-        returnValue: _i8.Future<_i4.Paginated<_i28.Trailer>>.value(
-            _FakePaginated_4<_i28.Trailer>(
+        returnValue: _i8.Future<_i4.Paginated<_i29.Trailer>>.value(
+            _FakePaginated_4<_i29.Trailer>(
           this,
           Invocation.method(
             #loadTrailers,
@@ -1213,13 +1310,43 @@ class MockTrailerService extends _i1.Mock implements _i27.TrailerService {
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i4.Paginated<_i28.Trailer>>.value(
-                _FakePaginated_4<_i28.Trailer>(
+            _i8.Future<_i4.Paginated<_i29.Trailer>>.value(
+                _FakePaginated_4<_i29.Trailer>(
           this,
           Invocation.method(
             #loadTrailers,
             [movieId],
           ),
         )),
-      ) as _i8.Future<_i4.Paginated<_i28.Trailer>>);
+      ) as _i8.Future<_i4.Paginated<_i29.Trailer>>);
+}
+
+/// A class which mocks [ConfigurationService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockConfigurationService extends _i1.Mock
+    implements _i30.ConfigurationService {
+  @override
+  _i3.Dio get client => (super.noSuchMethod(
+        Invocation.getter(#client),
+        returnValue: _FakeDio_3(
+          this,
+          Invocation.getter(#client),
+        ),
+        returnValueForMissingStub: _FakeDio_3(
+          this,
+          Invocation.getter(#client),
+        ),
+      ) as _i3.Dio);
+
+  @override
+  _i8.Future<List<_i21.Country>> loadCountries() => (super.noSuchMethod(
+        Invocation.method(
+          #loadCountries,
+          [],
+        ),
+        returnValue: _i8.Future<List<_i21.Country>>.value(<_i21.Country>[]),
+        returnValueForMissingStub:
+            _i8.Future<List<_i21.Country>>.value(<_i21.Country>[]),
+      ) as _i8.Future<List<_i21.Country>>);
 }

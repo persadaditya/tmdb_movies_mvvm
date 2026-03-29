@@ -18,18 +18,19 @@ class MovieService {
     var dateAfter = DateFormat('yyyy-MM-dd')
         .format(DateTime.now().add(const Duration(days: 30)));
 
-    final response = await _client.get(
-        'https://api.themoviedb.org/3/discover/movie?with_release_type=1|3}',
-        queryParameters: {
-          'page': page,
-          'region': 'ID',
-          'language': 'en-US',
-          'include_adult': false,
-          'include_video': false,
-          'sort_by': 'primary_release_date.desc',
-          'release_date.gte': dateBefore,
-          'release_date.lte': dateAfter
-        });
+    var country = await _localDataService.getCountry();
+
+    final response = await _client
+        .get('/discover/movie?with_release_type=1|3}', queryParameters: {
+      'page': page,
+      'region': country?.iso31661 ?? 'ID',
+      'language': 'en-US',
+      'include_adult': false,
+      'include_video': false,
+      'sort_by': 'primary_release_date.desc',
+      'release_date.gte': dateBefore,
+      'release_date.lte': dateAfter
+    });
     return Paginated<Movie>.fromJson(
       response.data,
       (json) => Movie.fromJson(json),
@@ -37,8 +38,15 @@ class MovieService {
   }
 
   Future<Paginated<Movie>> loadPopularMovies({int page = 1}) async {
-    final response = await _client.get('/movie/popular', queryParameters: {
+    var country = await _localDataService.getCountry();
+
+    final response = await _client.get('/discover/movie', queryParameters: {
       'page': page,
+      'region': country?.iso31661 ?? 'ID',
+      'language': 'en-US',
+      'include_adult': false,
+      'include_video': false,
+      'sort_by': 'popularity.desc',
     });
     return Paginated<Movie>.fromJson(
       response.data,
@@ -61,17 +69,19 @@ class MovieService {
         .format(DateTime.now().subtract(const Duration(days: 7)));
     var dateAfter = DateFormat('yyyy-MM-dd')
         .format(DateTime.now().add(const Duration(days: 7)));
-    final response = await _client.get(
-        'https://api.themoviedb.org/3/discover/movie?with_release_type=2|3',
-        queryParameters: {
-          'page': page,
-          'include_adult': false,
-          'include_video': false,
-          'region': 'ID',
-          'sort_by': 'popularity.desc',
-          'release_date.gte': dateBefore,
-          'release_date.lte': dateAfter
-        });
+
+    var country = await _localDataService.getCountry();
+
+    final response = await _client
+        .get('/discover/movie?with_release_type=2|3', queryParameters: {
+      'page': page,
+      'include_adult': false,
+      'include_video': false,
+      'region': country?.iso31661 ?? 'ID',
+      'sort_by': 'popularity.desc',
+      'release_date.gte': dateBefore,
+      'release_date.lte': dateAfter
+    });
     return Paginated<Movie>.fromJson(
       response.data,
       (json) => Movie.fromJson(json),

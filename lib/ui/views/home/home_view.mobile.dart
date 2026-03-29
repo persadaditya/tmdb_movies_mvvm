@@ -14,6 +14,11 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
   @override
   Widget build(BuildContext context, HomeViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
+    var avatar = viewModel.user?.avatar?.tmdb?.avatarPath;
+    var gravatar = viewModel.user?.avatar?.gravatar?.hash;
+    var imageUrl = avatar != null
+        ? 'https://image.tmdb.org/t/p/w500$avatar'
+        : 'https://secure.gravatar.com/avatar/$gravatar.jpg?s=200';
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -29,8 +34,7 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
                     verticalSpaceLarge,
                     ListTile(
                       leading: CircleAvatar(
-                        foregroundImage: CachedNetworkImageProvider(
-                            'https://secure.gravatar.com/avatar/${viewModel.user?.avatar?.gravatar?.hash}.jpg?s=200'),
+                        foregroundImage: CachedNetworkImageProvider(imageUrl),
                       ),
                       title: Text(
                         viewModel.user?.username ?? '',

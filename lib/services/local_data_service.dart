@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tmdb_movies/model/country.dart';
 import 'package:tmdb_movies/model/genre.dart';
 import 'package:tmdb_movies/model/user.dart';
 
@@ -78,5 +79,18 @@ class LocalDataService {
             .where((genre) => ids.contains(genre.id.toString()))
             .map((genre) => genre.name)
             .join(', '));
+  }
+
+  Future<void> setCountry(Country country) async {
+    return SharedPreferences.getInstance()
+        .then((prefs) => prefs.setString('country', country.toRawJson()));
+  }
+
+  Future<Country?> getCountry() async {
+    var countryData = await SharedPreferences.getInstance()
+        .then((prefs) => prefs.getString('country'));
+    if (countryData == null) return null;
+    return SharedPreferences.getInstance()
+        .then((prefs) => Country.fromRawJson(countryData));
   }
 }

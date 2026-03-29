@@ -23,6 +23,9 @@ import 'package:tmdb_movies/services/review_service.dart';
 import 'package:tmdb_movies/services/trailer_service.dart';
 import 'package:tmdb_movies/ui/views/trailers/trailers_view.dart';
 import 'package:tmdb_movies/ui/views/video/video_view.dart';
+import 'package:tmdb_movies/ui/bottom_sheets/confirmation/confirmation_sheet.dart';
+import 'package:tmdb_movies/services/configuration_service.dart';
+import 'package:tmdb_movies/ui/bottom_sheets/countries/countries_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -59,11 +62,14 @@ import 'package:tmdb_movies/ui/views/video/video_view.dart';
     LazySingleton(classType: CastService),
     LazySingleton(classType: ReviewService),
     LazySingleton(classType: TrailerService),
+    LazySingleton(classType: ConfigurationService),
 // @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
-    // @stacked-bottom-sheet
+    StackedBottomsheet(classType: ConfirmationSheet),
+    StackedBottomsheet(classType: CountriesSheet),
+// @stacked-bottom-sheet
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
