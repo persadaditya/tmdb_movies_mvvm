@@ -21,13 +21,7 @@ ThemeData buildTheme(Brightness brightness) {
       ThemeData.from(colorScheme: colorScheme, useMaterial3: true);
 
   return baseTheme.copyWith(
-    textTheme: GoogleFonts.montserratTextTheme(baseTheme.textTheme).copyWith(
-      headlineLarge: GoogleFonts.montserrat(
-        fontSize: 28,
-      ),
-      bodyMedium:
-          GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w600),
-    ),
+    textTheme: GoogleFonts.montserratTextTheme(baseTheme.textTheme),
     inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(28),
