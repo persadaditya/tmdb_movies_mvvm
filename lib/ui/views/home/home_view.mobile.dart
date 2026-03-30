@@ -38,7 +38,7 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
                         foregroundImage: CachedNetworkImageProvider(imageUrl),
                       ),
                       title: Text(
-                        viewModel.user?.username ?? '',
+                        viewModel.user?.username ?? 'Hello Guest',
                         style: textTheme.bodyLarge
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
@@ -118,8 +118,8 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
                             viewModel.setIndex(index);
                           },
                           height: 180,
-                          aspectRatio: 9 / 16,
-                          viewportFraction: 0.78,
+                          viewportFraction:
+                              0.75, // Adjust viewportFraction based on aspect ratio
                           initialPage: 0,
                           enableInfiniteScroll: true,
                           reverse: false,
