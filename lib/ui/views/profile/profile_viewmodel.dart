@@ -2,6 +2,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tmdb_movies/app/app.bottomsheets.dart';
 import 'package:tmdb_movies/app/app.locator.dart';
+import 'package:tmdb_movies/app/app.router.dart';
 import 'package:tmdb_movies/model/country.dart';
 import 'package:tmdb_movies/model/user.dart';
 import 'package:tmdb_movies/network/exception/app_exception.dart';
@@ -16,6 +17,7 @@ class ProfileViewModel extends BaseViewModel {
   final _dialog = locator<DialogService>();
   final _sheet = locator<BottomSheetService>();
   final _localDataService = locator<LocalDataService>();
+  final _routerService = locator<RouterService>();
 
   User user = User();
   Country? country;
@@ -95,6 +97,7 @@ class ProfileViewModel extends BaseViewModel {
     );
     if (confirm?.confirmed != true) return;
     await runBusyFuture(_authApi.signOut());
+    _routerService.replaceWithSignInView();
   }
 
   @override
