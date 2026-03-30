@@ -37,7 +37,7 @@ The entire Flutter project skeleton with:
 
 ### Key Files Generated
 
-```
+```folder
 lib/
 ├── app/
 │   ├── app.dart              # App setup, register services
