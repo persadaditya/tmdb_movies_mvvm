@@ -26,6 +26,7 @@ import 'package:tmdb_movies/ui/views/video/video_view.dart';
 import 'package:tmdb_movies/ui/bottom_sheets/confirmation/confirmation_sheet.dart';
 import 'package:tmdb_movies/services/configuration_service.dart';
 import 'package:tmdb_movies/ui/bottom_sheets/countries/countries_sheet.dart';
+import 'package:tmdb_movies/ui/views/movies/movies_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -43,6 +44,7 @@ import 'package:tmdb_movies/ui/bottom_sheets/countries/countries_sheet.dart';
     CustomRoute(page: GalleryView),
     CustomRoute(page: TrailersView),
     CustomRoute(page: VideoView),
+    CustomRoute(page: MoviesView),
 // @stacked-route
 
     CustomRoute(page: UnknownView, path: '/404'),

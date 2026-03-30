@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:tmdb_movies/model/movie.dart';
 import 'package:tmdb_movies/ui/common/app_colors.dart';
 import 'package:tmdb_movies/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -163,7 +164,7 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
                     verticalSpaceMedium,
                     _buildMostPopularMovies(viewModel, context),
                     verticalSpaceMedium,
-                    _buildTopRatedMovies(viewModel, context)
+                    _buildNowPlayingMovies(viewModel, context)
                   ],
                 ),
         ),
@@ -183,10 +184,13 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
                 style: textTheme.titleLarge
                     ?.copyWith(fontWeight: FontWeight.bold)),
             Expanded(child: Container()),
-            Text('See all',
-                style: textTheme.bodyLarge?.copyWith(
-                    color: appColorPrimaryBlueAccent,
-                    fontWeight: FontWeight.bold))
+            InkWell(
+              onTap: () => viewModel.navigateToMovies(MovieType.popular),
+              child: Text('See all',
+                  style: textTheme.bodyLarge?.copyWith(
+                      color: appColorPrimaryBlueAccent,
+                      fontWeight: FontWeight.bold)),
+            )
           ],
         ),
         verticalSpaceMedium,
@@ -208,7 +212,7 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
     );
   }
 
-  Widget _buildTopRatedMovies(HomeViewModel viewModel, BuildContext context) {
+  Widget _buildNowPlayingMovies(HomeViewModel viewModel, BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Row(
@@ -217,10 +221,13 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
               style:
                   textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
           Expanded(child: Container()),
-          Text('See all',
-              style: textTheme.bodyLarge?.copyWith(
-                  color: appColorPrimaryBlueAccent,
-                  fontWeight: FontWeight.bold))
+          InkWell(
+            onTap: () => viewModel.navigateToMovies(MovieType.nowPlaying),
+            child: Text('See all',
+                style: textTheme.bodyLarge?.copyWith(
+                    color: appColorPrimaryBlueAccent,
+                    fontWeight: FontWeight.bold)),
+          )
         ],
       ),
       verticalSpaceMedium,

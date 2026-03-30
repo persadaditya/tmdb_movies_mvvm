@@ -89,6 +89,10 @@ class HomeViewModel extends IndexTrackingViewModel {
     _route.replaceWith(const SignInViewRoute());
   }
 
+  void navigateToMovies(MovieType type) {
+    _routerService.navigateTo(MoviesViewRoute(type: type));
+  }
+
   void navigateToMovie(int id) {
     _routerService.navigateTo(MovieViewRoute(id: id));
   }

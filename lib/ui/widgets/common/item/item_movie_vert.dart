@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:tmdb_movies/constant/vectors.dart';
 import 'package:tmdb_movies/model/genre.dart';
 import 'package:tmdb_movies/model/movie.dart';
@@ -16,12 +17,13 @@ class ItemMovieVert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    var parseDate = DateTime.tryParse(movie.releaseDate ?? '');
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           height: 120,
-          width: 100,
+          width: 90,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: appColorTextBlack),
@@ -31,8 +33,8 @@ class ItemMovieVert extends StatelessWidget {
               return Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: imageProvider, fit: BoxFit.contain),
-                    borderRadius: BorderRadius.circular(10)),
+                        image: imageProvider, fit: BoxFit.cover),
+                    borderRadius: BorderRadius.circular(6)),
               );
             },
             errorWidget: (context, url, error) =>
@@ -43,7 +45,7 @@ class ItemMovieVert extends StatelessWidget {
           ),
         ),
         horizontalSpaceSmall,
-        Expanded(
+        Flexible(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -54,42 +56,78 @@ class ItemMovieVert extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                     )),
             verticalSpaceSmall,
-            _iconText(context, Icons.calendar_month,
-                movie.releaseDateParsed?.year.toString() ?? '-'),
-            verticalSpaceSmall,
-            _iconText(context, Icons.watch,
-                '${movie.runtime ?? 0} ${movie.runtime != null ? 'Minutes' : ''}'),
+            Row(
+              children: [
+                if (parseDate != null)
+                  _iconText(context, Icons.calendar_month_outlined,
+                      DateFormat("MMM yyyy").format(parseDate)),
+                Expanded(child: Container()),
+                if (movie.voteAverage != null) ...[
+                  horizontalSpaceSmall,
+                  _iconText(context, Icons.star_outline,
+                      movie.voteAverage?.toStringAsFixed(1) ?? '0.0',
+                      color: appColorSecOrange),
+                ]
+              ],
+            ),
             if (genres.isNotEmpty) ...[
               verticalSpaceSmall,
+              verticalSpaceTiny,
               Text(getGenresName(movie.genreIds ?? []),
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w300),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis),
+            ] else ...[
+              Text('No genres available',
+                  style: textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w300),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
             ],
+            verticalSpaceSmall,
+            verticalSpaceTiny,
+            Row(
+              children: [
+                Text('${movie.popularity?.toStringAsFixed(1) ?? '0.0'}%',
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: appColorPrimaryBlueAccent,
+                    )),
+                horizontalSpaceSmall,
+                Expanded(
+                  child: LinearProgressIndicator(
+                    value: (movie.popularity ?? 0) / 100,
+                    color: appColorPrimaryBlueAccent,
+                    borderRadius: BorderRadius.circular(10),
+                    backgroundColor:
+                        appColorPrimaryBlueAccent.withValues(alpha: 0.3),
+                  ),
+                ),
+              ],
+            )
           ],
         ))
       ],
     );
   }
 
-  Widget _iconText(BuildContext context, IconData icon, String text) {
+  Widget _iconText(BuildContext context, IconData icon, String text,
+      {Color? color}) {
     final textTheme = Theme.of(context).textTheme;
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Icon(
           icon,
-          color: appColorPrimaryBlueAccent,
+          color: color ?? appColorPrimaryBlueAccent,
           size: 16,
         ),
         horizontalSpaceTiny,
-        Expanded(
-          child: Text(text,
-              style: textTheme.bodyMedium?.copyWith(
-                color: appColorPrimaryBlueAccent,
-              ),
-              maxLines: 1),
-        )
+        Text(text,
+            style: textTheme.bodyMedium?.copyWith(
+              color: color ?? appColorPrimaryBlueAccent,
+            ),
+            maxLines: 1)
       ],
     );
   }

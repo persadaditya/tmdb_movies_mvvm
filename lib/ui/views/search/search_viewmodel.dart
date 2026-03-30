@@ -37,9 +37,27 @@ class SearchViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  bool _hasNextPage = false;
+  bool get hasNextPage => _hasNextPage;
+
+  int _page = 1;
+  int get page => _page;
+
+  Future<void> loadMore() async {
+    var response = await runBusyFuture(
+        _movieApi.loadSearchMovies(controller.text, page: _page + 1),
+        busyObject: 'loadMore');
+    _searchResults.addAll(response.results ?? []);
+    _page = response.page ?? 1;
+    _hasNextPage = _page < (response.totalPages ?? 1);
+    notifyListeners();
+  }
+
   Future<void> searchMovies(String query) async {
     var response = await runBusyFuture(_movieApi.loadSearchMovies(query));
     _searchResults = response.results ?? [];
+    _page = response.page ?? 1;
+    _hasNextPage = _page < (response.totalPages ?? 1);
     notifyListeners();
   }
 

@@ -59,7 +59,7 @@ class SearchViewMobile extends ViewModelWidget<SearchViewModel> {
             ),
             verticalSpaceMedium,
             verticalSpaceSmall,
-            _buildSearchResult(context, viewModel)
+            _buildSearchResult(context, viewModel),
           ],
         ),
       ),
@@ -91,7 +91,20 @@ class SearchViewMobile extends ViewModelWidget<SearchViewModel> {
                           ),
                           verticalSpaceMedium,
                         ],
-                      ))
+                      )),
+                  if (viewModel.hasNextPage) ...[
+                    viewModel.busy('loadMore')
+                        ? const Center(child: CircularProgressIndicator())
+                        : InkWell(
+                            onTap: () {
+                              viewModel.loadMore();
+                            },
+                            child: Text('Load More',
+                                textAlign: TextAlign.center,
+                                style: textTheme.bodyMedium?.copyWith(
+                                    color: appColorPrimaryBlueAccent)),
+                          ),
+                  ]
                 ],
               )
             : Column(

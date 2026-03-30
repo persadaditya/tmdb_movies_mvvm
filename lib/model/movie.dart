@@ -213,3 +213,5 @@ class Movie {
     return genres?.map((e) => e.name).join(', ');
   }
 }
+
+enum MovieType { nowPlaying, popular, similar }
