@@ -2,19 +2,6 @@
 <html>
 
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
@@ -33,22 +20,13 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
 
   <title>My Stacked Application</title>
   <link rel="manifest" href="manifest.json">
-
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
 </head>
 
 <body>
   <style>
-    
     body {
       background-color: #0A0A0A;
       height: 100vh;
@@ -62,110 +40,70 @@
       touch-action: none;
     }
 
-    .main-content {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity .4s ease-out;
+    /* Optional: Custom splash screen styles - remove if you don't want any loading indicator */
+    .splash {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
     }
 
-    img {
+    .logo {
       width: 100px;
       height: 100px;
-      position: absolute;
     }
 
-    p {
+    .loading-text {
       color: #fff;
-    }
-
-
-    .loader {
-      position: relative;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      background: linear-gradient(#f07e6e, #84cdfa, #5ad1cd);
-      animation: animate 1.2s linear infinite;
-    }
-
-    @keyframes animate {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    .loader span {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 60%;
-      background: linear-gradient(#f07e6e, #84cdfa, #5ad1cd);
-    }
-
-    .loader span:nth-child(1) {
-      filter: blur(5px);
-    }
-
-    .loader span:nth-child(2) {
-      filter: blur(10px);
-    }
-
-    .loader span:nth-child(3) {
-      filter: blur(25px);
-    }
-
-    .loader span:nth-child(4) {
-      filter: blur(50px);
-    }
-
-    .loader:after {
-      content: '';
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-      background: #191919;
-      border-radius: 50%;
+      font-family: system-ui, sans-serif;
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.8;
     }
   </style>
-  <script>
-    function delay(time) {
-      return new Promise(resolve => setTimeout(resolve, time));
-    }
 
-    window.addEventListener('load', function (ev) {
-      var loaderContent = document.querySelector('#loader-content');
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        }
-      }).then(function (engineInitializer) {
-        return engineInitializer.initializeEngine();
-      }).then(async function (appRunner) {
-        loaderContent.style.opacity = "0";
-        await delay(400);
-        await appRunner.runApp();
-      });
-    });
-  </script>
-  <div class="main-content" id="loader-content">
-    <div class="loader">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <img src="main-icon.png" />
+  <!-- Optional: Custom splash screen - remove this div if you want no loading indicator -->
+  <div class="splash" id="splash">
+    <img src="icons/Icon-512.png" alt="Logo" class="logo">
+    <div class="loading-text"><h2>Loading...</h2></div>
   </div>
+
+  <!-- Use the new bootstrap method with template tokens -->
+  <!-- Remove the deprecated service worker version -->
+  <script>
+    {{flutter_js}}
+    {{flutter_build_config}}
+  </script>
+  <script>
+    // Custom initialization with optional splash screen handling
+    (function() {
+      const splash = document.getElementById('splash');
+      
+      _flutter.loader.load({
+        onEntrypointLoaded: async function(engineInitializer) {
+          // Optional: Update loading text
+          if (splash) {
+            const textEl = splash.querySelector('.loading-text');
+            if (textEl) textEl.textContent = 'Initializing...';
+          }
+          
+          const appRunner = await engineInitializer.initializeEngine();
+          
+          // Remove splash screen before running app (or fade out)
+          if (splash) {
+            splash.style.transition = 'opacity 0.3s ease-out';
+            splash.style.opacity = '0';
+            setTimeout(() => {
+              if (splash.parentNode) splash.remove();
+            }, 300);
+          }
+          
+          await appRunner.runApp();
+        }
+      });
+    })();
+  </script>
 </body>
 
 </html>
