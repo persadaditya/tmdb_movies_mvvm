@@ -80,9 +80,7 @@ dependencies:
 Create `.env` file in project root:
 
 ```env
-TMDB_API_KEY=your_api_key_here
-TMDB_BASE_URL=https://api.themoviedb.org/3
-TMDB_IMAGE_BASE_URL=https://image.tmdb.org/t/p
+API_KEY=your_api_key_here
 ```
 
 Load it in `main.dart`:
@@ -94,21 +92,26 @@ void main() async {
 }
 ```
 
-### 2.3 API Client Setup (`lib/network/api_client.dart`)
+### 2.3 API Client Setup (`lib/network/header_interceptor.dart`)
 
 ```dart
-class ApiClient {
-  late Dio dio;
-  
-  ApiClient() {
-    dio = Dio(BaseOptions(
-      baseUrl: dotenv.env['TMDB_BASE_URL']!,
-      queryParameters: {'api_key': dotenv.env['TMDB_API_KEY']},
-    ));
-    
-    dio.interceptors.add(HeaderInterceptor());
-    dio.interceptors.add(PrettyDioLogger());
+class HeaderInterceptor extends InterceptorsWrapper {
+  final String _apiKey = dotenv.env['API_KEY'] ?? '';
+  final logger = getLogger('interceptor');
+
+  @override
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    options.headers.addAll({
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": "Bearer $_apiKey",
+    });
+
+    handler.next(options);
   }
+
+  ///... onError goes here
 }
 ```
 
@@ -163,19 +166,57 @@ dart run flutter_launcher_icons:generate
 ### Theme Configuration (`lib/ui/common/app_theme.dart`)
 
 ```dart
-class AppTheme {
-  static ThemeData lightTheme = ThemeData(
-    primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.background,
-    fontFamily: 'Poppins',
-    textTheme: const TextTheme(
-      headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-      bodyLarge: TextStyle(fontSize: 16),
+ThemeData buildTheme(Brightness brightness) {
+  ColorScheme colorScheme = ColorScheme.fromSeed(
+    seedColor: appColorPrimaryDark,
+    surface: appColorPrimaryDark,
+    onSurface: appColorTextWhite,
+    primary: appColorPrimaryBlueAccent,
+    onPrimary: appColorTextWhiteGrey,
+    primaryContainer: appColorPrimarySoft,
+    onPrimaryContainer: appColorPrimaryBlueAccent,
+    secondary: appColorSecOrange,
+    onSecondary: appColorTextWhite,
+    secondaryContainer: appColorPrimarySoft,
+    onSecondaryContainer: appColorSecOrange,
+    brightness: brightness,
+  );
+  final baseTheme =
+      ThemeData.from(colorScheme: colorScheme, useMaterial3: true);
+
+  return baseTheme.copyWith(
+    textTheme: GoogleFonts.montserratTextTheme(baseTheme.textTheme).copyWith(
+      headlineLarge: GoogleFonts.montserrat(
+        fontSize: 28,
+      ),
+      bodyMedium:
+          GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w600),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(28),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(28),
+          borderSide: const BorderSide(
+            color: appColorPrimaryBlueAccent,
+          ),
+        )),
+    buttonTheme: ButtonThemeData(
+        buttonColor: appColorPrimaryBlueAccent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        )),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(appColorPrimaryBlueAccent),
+        foregroundColor: WidgetStateProperty.all(appColorTextWhite),
+        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+      ),
     ),
   );
 }
@@ -197,13 +238,19 @@ Startup view checks auth state and navigates accordingly:
 
 ```dart
 class StartupViewModel extends BaseViewModel {
-  Future<void> checkAuth() async {
-    final hasSession = await _localDataService.hasSession();
-    if (hasSession) {
-      _navigationService.replaceWithDashboardView();
-    } else {
-      _navigationService.replaceWithSignInView();
+  final _routerService = locator<RouterService>();
+  final _authService = locator<AuthService>();
+
+  // Place anything here that needs to happen before we get into the application
+  Future runStartupLogic() async {
+    // This is where you can make decisions on where your app should navigate when
+    // you have custom startup logic
+    await Future.delayed(const Duration(seconds: 4));
+    if (await _authService.isSignedIn()) {
+      await _routerService.replaceWith(const DashboardViewRoute());
+      return;
     }
+    await _routerService.replaceWith(const SignInViewRoute());
   }
 }
 ```
@@ -244,6 +291,14 @@ class AppTextField extends ViewModelWidget<AppTextFieldModel> {
 Launch external URL:
 
 ```dart
+///ui_helpers.dart
+Future<void> openUrl(String url) async {
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url));
+  }
+}
+
+///sign_in_viewmodel.dart
 Future<void> signUp() async {
   const url = 'https://www.themoviedb.org/signup';
   if (await canLaunch(url)) {
@@ -656,7 +711,7 @@ git clone https://github.com/persadaditya/tmdb_movies_mvvm.git
 flutter pub get
 
 # Setup environment
-echo "TMDB_API_KEY=your_key_here" > .env
+echo "API_KEY=your_key_here" > .env
 
 # Run the app
 flutter run
@@ -676,5 +731,3 @@ This tutorial follows **your exact commit history**, showing how you progressive
 - Adding tests alongside features
 - Responsive UI for multiple platforms
 - Clean MVVM architecture with Stacked
-
-Would you like me to expand on any specific section or create a video script based on this tutorial?

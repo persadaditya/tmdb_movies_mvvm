@@ -10,6 +10,9 @@ this codebase created from stacked create app tmdb_movies -t web --platforms ios
 
 add flutter pub add flutter_dotenv, add .env file then store tmdb api key in there.
 
+.env file
+API_KEY = YOUR_TMDB_APIKEY
+
 ## Change Package Name
 
 use this [package](https://pub.dev/packages/change_app_package_name) to change package name. after add plugins just simply use this command.
