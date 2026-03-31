@@ -33,12 +33,13 @@ import 'package:tmdb_movies/ui/views/movies/movies_view.dart';
   logger: StackedLogger(),
   routes: [
     CustomRoute(page: StartupView, initial: true),
-    CustomRoute(page: HomeView, path: '/home'),
     CustomRoute(page: SignInView, path: '/sign-in'),
-    CustomRoute(page: DashboardView, path: '/'),
-    CustomRoute(page: SearchView, path: '/search'),
-    CustomRoute(page: ProfileView, path: '/profile'),
-    CustomRoute(page: WishlistView, path: '/wishlist'),
+    CustomRoute(page: DashboardView, path: '/', children: [
+      CustomRoute(page: HomeView, path: 'home', initial: true),
+      CustomRoute(page: SearchView, path: 'search'),
+      CustomRoute(page: ProfileView, path: 'profile'),
+      CustomRoute(page: WishlistView, path: 'wishlist'),
+    ]),
     CustomRoute(page: MovieView, path: '/movie/:id'),
     CustomRoute(page: ImageView, path: '/image'),
     CustomRoute(page: GalleryView, path: '/gallery'),

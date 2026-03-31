@@ -11,20 +11,20 @@ import 'package:stacked_services/stacked_services.dart' as _i15;
 
 import '../model/movie.dart' as _i19;
 import '../model/movie_image.dart' as _i18;
-import '../ui/views/dashboard/dashboard_view.dart' as _i4;
-import '../ui/views/gallery/gallery_view.dart' as _i10;
-import '../ui/views/home/home_view.dart' as _i2;
-import '../ui/views/image/image_view.dart' as _i9;
-import '../ui/views/movie/movie_view.dart' as _i8;
-import '../ui/views/movies/movies_view.dart' as _i13;
-import '../ui/views/profile/profile_view.dart' as _i6;
-import '../ui/views/search/search_view.dart' as _i5;
-import '../ui/views/sign_in/sign_in_view.dart' as _i3;
+import '../ui/views/dashboard/dashboard_view.dart' as _i3;
+import '../ui/views/gallery/gallery_view.dart' as _i6;
+import '../ui/views/home/home_view.dart' as _i11;
+import '../ui/views/image/image_view.dart' as _i5;
+import '../ui/views/movie/movie_view.dart' as _i4;
+import '../ui/views/movies/movies_view.dart' as _i9;
+import '../ui/views/profile/profile_view.dart' as _i13;
+import '../ui/views/search/search_view.dart' as _i12;
+import '../ui/views/sign_in/sign_in_view.dart' as _i2;
 import '../ui/views/startup/startup_view.dart' as _i1;
-import '../ui/views/trailers/trailers_view.dart' as _i11;
-import '../ui/views/unknown/unknown_view.dart' as _i14;
-import '../ui/views/video/video_view.dart' as _i12;
-import '../ui/views/wishlist/wishlist_view.dart' as _i7;
+import '../ui/views/trailers/trailers_view.dart' as _i7;
+import '../ui/views/unknown/unknown_view.dart' as _i10;
+import '../ui/views/video/video_view.dart' as _i8;
+import '../ui/views/wishlist/wishlist_view.dart' as _i14;
 
 final stackedRouter =
     StackedRouterWeb(navigatorKey: _i15.StackedService.navigatorKey);
@@ -43,18 +43,10 @@ class StackedRouterWeb extends _i16.RootStackRouter {
         barrierDismissible: false,
       );
     },
-    HomeViewRoute.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
-        routeData: routeData,
-        child: const _i2.HomeView(),
-        opaque: true,
-        barrierDismissible: false,
-      );
-    },
     SignInViewRoute.name: (routeData) {
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i3.SignInView(),
+        child: const _i2.SignInView(),
         opaque: true,
         barrierDismissible: false,
       );
@@ -62,31 +54,7 @@ class StackedRouterWeb extends _i16.RootStackRouter {
     DashboardViewRoute.name: (routeData) {
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i4.DashboardView(),
-        opaque: true,
-        barrierDismissible: false,
-      );
-    },
-    SearchViewRoute.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
-        routeData: routeData,
-        child: const _i5.SearchView(),
-        opaque: true,
-        barrierDismissible: false,
-      );
-    },
-    ProfileViewRoute.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
-        routeData: routeData,
-        child: const _i6.ProfileView(),
-        opaque: true,
-        barrierDismissible: false,
-      );
-    },
-    WishlistViewRoute.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
-        routeData: routeData,
-        child: const _i7.WishlistView(),
+        child: const _i3.DashboardView(),
         opaque: true,
         barrierDismissible: false,
       );
@@ -97,7 +65,7 @@ class StackedRouterWeb extends _i16.RootStackRouter {
           orElse: () => MovieViewArgs(id: pathParams.getString('id')));
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
-        child: _i8.MovieView(
+        child: _i4.MovieView(
           key: args.key,
           id: args.id,
         ),
@@ -109,7 +77,7 @@ class StackedRouterWeb extends _i16.RootStackRouter {
       final args = routeData.argsAs<ImageViewArgs>();
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
-        child: _i9.ImageView(
+        child: _i5.ImageView(
           key: args.key,
           url: args.url,
         ),
@@ -121,7 +89,7 @@ class StackedRouterWeb extends _i16.RootStackRouter {
       final args = routeData.argsAs<GalleryViewArgs>();
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
-        child: _i10.GalleryView(
+        child: _i6.GalleryView(
           key: args.key,
           movieImage: args.movieImage,
         ),
@@ -133,7 +101,7 @@ class StackedRouterWeb extends _i16.RootStackRouter {
       final args = routeData.argsAs<TrailersViewArgs>();
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
-        child: _i11.TrailersView(
+        child: _i7.TrailersView(
           key: args.key,
           movieId: args.movieId,
         ),
@@ -146,7 +114,7 @@ class StackedRouterWeb extends _i16.RootStackRouter {
           routeData.argsAs<VideoViewArgs>(orElse: () => const VideoViewArgs());
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
-        child: _i12.VideoView(
+        child: _i8.VideoView(
           key: args.key,
           youtubeKey: args.youtubeKey,
         ),
@@ -158,7 +126,7 @@ class StackedRouterWeb extends _i16.RootStackRouter {
       final args = routeData.argsAs<MoviesViewArgs>();
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
-        child: _i13.MoviesView(
+        child: _i9.MoviesView(
           key: args.key,
           id: args.id,
           type: args.type,
@@ -170,7 +138,39 @@ class StackedRouterWeb extends _i16.RootStackRouter {
     UnknownViewRoute.name: (routeData) {
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i14.UnknownView(),
+        child: const _i10.UnknownView(),
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
+    HomeViewRoute.name: (routeData) {
+      return _i16.CustomPage<dynamic>(
+        routeData: routeData,
+        child: const _i11.HomeView(),
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
+    SearchViewRoute.name: (routeData) {
+      return _i16.CustomPage<dynamic>(
+        routeData: routeData,
+        child: const _i12.SearchView(),
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
+    ProfileViewRoute.name: (routeData) {
+      return _i16.CustomPage<dynamic>(
+        routeData: routeData,
+        child: const _i13.ProfileView(),
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
+    WishlistViewRoute.name: (routeData) {
+      return _i16.CustomPage<dynamic>(
+        routeData: routeData,
+        child: const _i14.WishlistView(),
         opaque: true,
         barrierDismissible: false,
       );
@@ -184,28 +184,41 @@ class StackedRouterWeb extends _i16.RootStackRouter {
           path: '/',
         ),
         _i16.RouteConfig(
-          HomeViewRoute.name,
-          path: '/home',
-        ),
-        _i16.RouteConfig(
           SignInViewRoute.name,
           path: '/sign-in',
         ),
         _i16.RouteConfig(
           DashboardViewRoute.name,
           path: '/',
-        ),
-        _i16.RouteConfig(
-          SearchViewRoute.name,
-          path: '/search',
-        ),
-        _i16.RouteConfig(
-          ProfileViewRoute.name,
-          path: '/profile',
-        ),
-        _i16.RouteConfig(
-          WishlistViewRoute.name,
-          path: '/wishlist',
+          children: [
+            _i16.RouteConfig(
+              '#redirect',
+              path: '',
+              parent: DashboardViewRoute.name,
+              redirectTo: 'home',
+              fullMatch: true,
+            ),
+            _i16.RouteConfig(
+              HomeViewRoute.name,
+              path: 'home',
+              parent: DashboardViewRoute.name,
+            ),
+            _i16.RouteConfig(
+              SearchViewRoute.name,
+              path: 'search',
+              parent: DashboardViewRoute.name,
+            ),
+            _i16.RouteConfig(
+              ProfileViewRoute.name,
+              path: 'profile',
+              parent: DashboardViewRoute.name,
+            ),
+            _i16.RouteConfig(
+              WishlistViewRoute.name,
+              path: 'wishlist',
+              parent: DashboardViewRoute.name,
+            ),
+          ],
         ),
         _i16.RouteConfig(
           MovieViewRoute.name,
@@ -257,19 +270,7 @@ class StartupViewRoute extends _i16.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.HomeView]
-class HomeViewRoute extends _i16.PageRouteInfo<void> {
-  const HomeViewRoute()
-      : super(
-          HomeViewRoute.name,
-          path: '/home',
-        );
-
-  static const String name = 'HomeView';
-}
-
-/// generated route for
-/// [_i3.SignInView]
+/// [_i2.SignInView]
 class SignInViewRoute extends _i16.PageRouteInfo<void> {
   const SignInViewRoute()
       : super(
@@ -281,55 +282,20 @@ class SignInViewRoute extends _i16.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.DashboardView]
+/// [_i3.DashboardView]
 class DashboardViewRoute extends _i16.PageRouteInfo<void> {
-  const DashboardViewRoute()
+  const DashboardViewRoute({List<_i16.PageRouteInfo>? children})
       : super(
           DashboardViewRoute.name,
           path: '/',
+          initialChildren: children,
         );
 
   static const String name = 'DashboardView';
 }
 
 /// generated route for
-/// [_i5.SearchView]
-class SearchViewRoute extends _i16.PageRouteInfo<void> {
-  const SearchViewRoute()
-      : super(
-          SearchViewRoute.name,
-          path: '/search',
-        );
-
-  static const String name = 'SearchView';
-}
-
-/// generated route for
-/// [_i6.ProfileView]
-class ProfileViewRoute extends _i16.PageRouteInfo<void> {
-  const ProfileViewRoute()
-      : super(
-          ProfileViewRoute.name,
-          path: '/profile',
-        );
-
-  static const String name = 'ProfileView';
-}
-
-/// generated route for
-/// [_i7.WishlistView]
-class WishlistViewRoute extends _i16.PageRouteInfo<void> {
-  const WishlistViewRoute()
-      : super(
-          WishlistViewRoute.name,
-          path: '/wishlist',
-        );
-
-  static const String name = 'WishlistView';
-}
-
-/// generated route for
-/// [_i8.MovieView]
+/// [_i4.MovieView]
 class MovieViewRoute extends _i16.PageRouteInfo<MovieViewArgs> {
   MovieViewRoute({
     _i17.Key? key,
@@ -364,7 +330,7 @@ class MovieViewArgs {
 }
 
 /// generated route for
-/// [_i9.ImageView]
+/// [_i5.ImageView]
 class ImageViewRoute extends _i16.PageRouteInfo<ImageViewArgs> {
   ImageViewRoute({
     _i17.Key? key,
@@ -398,7 +364,7 @@ class ImageViewArgs {
 }
 
 /// generated route for
-/// [_i10.GalleryView]
+/// [_i6.GalleryView]
 class GalleryViewRoute extends _i16.PageRouteInfo<GalleryViewArgs> {
   GalleryViewRoute({
     _i17.Key? key,
@@ -432,7 +398,7 @@ class GalleryViewArgs {
 }
 
 /// generated route for
-/// [_i11.TrailersView]
+/// [_i7.TrailersView]
 class TrailersViewRoute extends _i16.PageRouteInfo<TrailersViewArgs> {
   TrailersViewRoute({
     _i17.Key? key,
@@ -466,7 +432,7 @@ class TrailersViewArgs {
 }
 
 /// generated route for
-/// [_i12.VideoView]
+/// [_i8.VideoView]
 class VideoViewRoute extends _i16.PageRouteInfo<VideoViewArgs> {
   VideoViewRoute({
     _i17.Key? key,
@@ -500,7 +466,7 @@ class VideoViewArgs {
 }
 
 /// generated route for
-/// [_i13.MoviesView]
+/// [_i9.MoviesView]
 class MoviesViewRoute extends _i16.PageRouteInfo<MoviesViewArgs> {
   MoviesViewRoute({
     _i17.Key? key,
@@ -539,7 +505,7 @@ class MoviesViewArgs {
 }
 
 /// generated route for
-/// [_i14.UnknownView]
+/// [_i10.UnknownView]
 class UnknownViewRoute extends _i16.PageRouteInfo<void> {
   const UnknownViewRoute()
       : super(
@@ -550,19 +516,59 @@ class UnknownViewRoute extends _i16.PageRouteInfo<void> {
   static const String name = 'UnknownView';
 }
 
+/// generated route for
+/// [_i11.HomeView]
+class HomeViewRoute extends _i16.PageRouteInfo<void> {
+  const HomeViewRoute()
+      : super(
+          HomeViewRoute.name,
+          path: 'home',
+        );
+
+  static const String name = 'HomeView';
+}
+
+/// generated route for
+/// [_i12.SearchView]
+class SearchViewRoute extends _i16.PageRouteInfo<void> {
+  const SearchViewRoute()
+      : super(
+          SearchViewRoute.name,
+          path: 'search',
+        );
+
+  static const String name = 'SearchView';
+}
+
+/// generated route for
+/// [_i13.ProfileView]
+class ProfileViewRoute extends _i16.PageRouteInfo<void> {
+  const ProfileViewRoute()
+      : super(
+          ProfileViewRoute.name,
+          path: 'profile',
+        );
+
+  static const String name = 'ProfileView';
+}
+
+/// generated route for
+/// [_i14.WishlistView]
+class WishlistViewRoute extends _i16.PageRouteInfo<void> {
+  const WishlistViewRoute()
+      : super(
+          WishlistViewRoute.name,
+          path: 'wishlist',
+        );
+
+  static const String name = 'WishlistView';
+}
+
 extension RouterStateExtension on _i15.RouterService {
   Future<dynamic> navigateToStartupView(
       {void Function(_i16.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const StartupViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
-  Future<dynamic> navigateToHomeView(
-      {void Function(_i16.NavigationFailure)? onFailure}) async {
-    return navigateTo(
-      const HomeViewRoute(),
       onFailure: onFailure,
     );
   }
@@ -579,30 +585,6 @@ extension RouterStateExtension on _i15.RouterService {
       {void Function(_i16.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const DashboardViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
-  Future<dynamic> navigateToSearchView(
-      {void Function(_i16.NavigationFailure)? onFailure}) async {
-    return navigateTo(
-      const SearchViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
-  Future<dynamic> navigateToProfileView(
-      {void Function(_i16.NavigationFailure)? onFailure}) async {
-    return navigateTo(
-      const ProfileViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
-  Future<dynamic> navigateToWishlistView(
-      {void Function(_i16.NavigationFailure)? onFailure}) async {
-    return navigateTo(
-      const WishlistViewRoute(),
       onFailure: onFailure,
     );
   }
@@ -701,18 +683,42 @@ extension RouterStateExtension on _i15.RouterService {
     );
   }
 
-  Future<dynamic> replaceWithStartupView(
+  Future<dynamic> navigateToHomeView(
       {void Function(_i16.NavigationFailure)? onFailure}) async {
-    return replaceWith(
-      const StartupViewRoute(),
+    return navigateTo(
+      const HomeViewRoute(),
       onFailure: onFailure,
     );
   }
 
-  Future<dynamic> replaceWithHomeView(
+  Future<dynamic> navigateToSearchView(
+      {void Function(_i16.NavigationFailure)? onFailure}) async {
+    return navigateTo(
+      const SearchViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> navigateToProfileView(
+      {void Function(_i16.NavigationFailure)? onFailure}) async {
+    return navigateTo(
+      const ProfileViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> navigateToWishlistView(
+      {void Function(_i16.NavigationFailure)? onFailure}) async {
+    return navigateTo(
+      const WishlistViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> replaceWithStartupView(
       {void Function(_i16.NavigationFailure)? onFailure}) async {
     return replaceWith(
-      const HomeViewRoute(),
+      const StartupViewRoute(),
       onFailure: onFailure,
     );
   }
@@ -729,30 +735,6 @@ extension RouterStateExtension on _i15.RouterService {
       {void Function(_i16.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const DashboardViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
-  Future<dynamic> replaceWithSearchView(
-      {void Function(_i16.NavigationFailure)? onFailure}) async {
-    return replaceWith(
-      const SearchViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
-  Future<dynamic> replaceWithProfileView(
-      {void Function(_i16.NavigationFailure)? onFailure}) async {
-    return replaceWith(
-      const ProfileViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
-  Future<dynamic> replaceWithWishlistView(
-      {void Function(_i16.NavigationFailure)? onFailure}) async {
-    return replaceWith(
-      const WishlistViewRoute(),
       onFailure: onFailure,
     );
   }
@@ -847,6 +829,38 @@ extension RouterStateExtension on _i15.RouterService {
       {void Function(_i16.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const UnknownViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> replaceWithHomeView(
+      {void Function(_i16.NavigationFailure)? onFailure}) async {
+    return replaceWith(
+      const HomeViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> replaceWithSearchView(
+      {void Function(_i16.NavigationFailure)? onFailure}) async {
+    return replaceWith(
+      const SearchViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> replaceWithProfileView(
+      {void Function(_i16.NavigationFailure)? onFailure}) async {
+    return replaceWith(
+      const ProfileViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> replaceWithWishlistView(
+      {void Function(_i16.NavigationFailure)? onFailure}) async {
+    return replaceWith(
+      const WishlistViewRoute(),
       onFailure: onFailure,
     );
   }

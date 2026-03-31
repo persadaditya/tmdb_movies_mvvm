@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tmdb_movies/app/app.locator.dart';
-import 'package:tmdb_movies/app/app.logger.dart';
 import 'package:tmdb_movies/app/app.router.dart';
 import 'package:tmdb_movies/model/genre.dart';
 import 'package:tmdb_movies/model/movie.dart';

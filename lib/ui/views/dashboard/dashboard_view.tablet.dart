@@ -3,10 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tmdb_movies/constant/vectors.dart';
 import 'package:tmdb_movies/ui/common/ui_helpers.dart';
-import 'package:tmdb_movies/ui/views/home/home_view.dart';
-import 'package:tmdb_movies/ui/views/profile/profile_view.dart';
-import 'package:tmdb_movies/ui/views/search/search_view.dart';
-import 'package:tmdb_movies/ui/views/wishlist/wishlist_view.dart';
 
 import 'dashboard_viewmodel.dart';
 
@@ -49,8 +45,7 @@ class DashboardViewTablet extends ViewModelWidget<DashboardViewModel> {
                           viewModel.menuItems.indexOf(menu),
                       onTap: () {
                         var index = viewModel.menuItems.indexOf(menu);
-                        viewModel.setIndex(index);
-                        viewModel.pageController.jumpToPage(index);
+                        viewModel.onTapMenu(menu);
                         Navigator.pop(context);
                       },
                     ))
@@ -58,16 +53,7 @@ class DashboardViewTablet extends ViewModelWidget<DashboardViewModel> {
           ],
         ),
       ),
-      body: PageView(
-        controller: viewModel.pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: const [
-          HomeView(),
-          SearchView(),
-          WishlistView(),
-          ProfileView()
-        ],
-      ),
+      body: const NestedRouter(),
     );
   }
 }

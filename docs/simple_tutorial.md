@@ -13,6 +13,7 @@ A fully-featured movie browsing app with:
 - Wishlist (favorites)
 - Responsive design (mobile, tablet, desktop)
 - **Web-friendly routing with path parameters** (NEW)
+- **Nested navigation with children routes** (NEW)
 
 ---
 
@@ -51,7 +52,7 @@ lib/
 └── main.dart                 # App entry point
 ```
 
-### What You Learned (Architecture & Setup)
+### Key Learnings: Architecture & Setup
 
 - Setting up Stacked for MVVM in Flutter
 - Responsive architecture with separate view files
@@ -123,7 +124,7 @@ Created exception hierarchy:
 - `NetworkException` (no internet, timeout)
 - `ServerException` (4xx, 5xx errors)
 
-### What You Learned
+### Key Learnings: Networking & Security
 
 - Secure API key management with `flutter_dotenv`
 - Dio interceptors for headers and logging
@@ -220,7 +221,7 @@ ThemeData buildTheme(Brightness brightness) {
 }
 ```
 
-### What You Learned (Branding & Theme)
+### Key Learnings: Branding & UI
 
 - Changing Flutter app package name
 - Generating app icons for all platforms
@@ -355,7 +356,7 @@ class AuthService {
 }
 ```
 
-### What You Learned (Authentication)
+### Key Learnings: Authentication & Forms
 
 - Creating custom form widgets with validation
 - Launching external URLs
@@ -364,7 +365,7 @@ class AuthService {
 
 ---
 
-## Phase 5: Web Routing with Path Parameters (NEW)
+## Phase 5: Web Routing with Path Parameters (NEW - Uncommitted Changes)
 
 **Feature:** Implementing proper web routing with path parameters for shareable URLs
 
@@ -480,7 +481,7 @@ MovieViewModel(id: int.tryParse(id) ?? 0);
 
 This converts the string ID to an integer, defaulting to 0 if parsing fails. In production, you might want to add better error handling.
 
-### What You Learned (Web Routing)
+### Key Learnings: Web Routing
 
 - Configuring path parameters in Stacked routes
 - Using `@pathParam` annotation to access URL parameters
@@ -490,149 +491,168 @@ This converts the string ID to an integer, defaulting to 0 if parsing fails. In 
 
 ---
 
-## Phase 6: Dashboard & Navigation (Commits 12-14)
+## Phase 6: Nested Navigation with Children Routes (NEW)
 
-**Commit:** `e5c5c4e - implement dashboard view`
+**Feature:** Implementing nested navigation using children routes instead of page views
 
-Dashboard with navigation drawer:
+### 6.1 The Problem with PageView Navigation
+
+The previous implementation used a `PageView` or custom `Navigator` widget to switch between dashboard screens. This approach had limitations:
+
+- No proper URL routing for web
+- Browser back/forward buttons didn't work correctly
+- Hard to share specific dashboard pages
+- Complex state management
+
+### 6.2 Solution: Nested Routes with Children
+
+The new implementation uses Stacked's nested routing feature:
+
+In `lib/app/app.dart`:
 
 ```dart
-class DashboardView extends StackedView<DashboardViewModel> {
-  const DashboardView({super.key});
+CustomRoute(page: DashboardView, path: '/', children: [
+  CustomRoute(page: HomeView, path: 'home', initial: true),
+  CustomRoute(page: SearchView, path: 'search'),
+  CustomRoute(page: ProfileView, path: 'profile'),
+  CustomRoute(page: WishlistView, path: 'wishlist'),
+]),
+```
+
+### 6.3 Dashboard View with NestedRouter
+
+In `lib/ui/views/dashboard/dashboard_view.mobile.dart`:
+
+```dart
+class DashboardViewMobile extends ViewModelWidget<DashboardViewModel> {
+  const DashboardViewMobile({super.key});
 
   @override
-  Widget builder(
-    BuildContext context,
-    DashboardViewModel viewModel,
-    Widget? child,
-  ) {
+  Widget build(BuildContext context, DashboardViewModel viewModel) {
     return Scaffold(
-      drawer: const DashboardDrawer(),
-      body: Row(
-        children: [
-          if (!viewModel.isMobile) const DashboardSidebar(),
-          Expanded(
-            child: Navigator(
-              key: viewModel.navigatorKey,
-              onGenerateRoute: viewModel.onGenerateRoute,
-            ),
-          ),
-        ],
-      ),
+      body: const NestedRouter(),
+      bottomNavigationBar: NavigationBar(
+          selectedIndex: viewModel.currentIndex,
+          onDestinationSelected: (index) => viewModel.setIndex(index),
+          destinations: viewModel.menuItems
+              .map((menu) => CustomNavItem(
+                    icon: menu.icon,
+                    label: menu.title,
+                    isSelected: viewModel.currentIndex ==
+                        viewModel.menuItems.indexOf(menu),
+                    onTap: () {
+                      var index = viewModel.menuItems.indexOf(menu);
+                      viewModel.onTapMenu(menu);
+                    },
+                  ))
+              .toList()),
     );
   }
 }
 ```
 
-**Commit:** `a5c0f9c - implement home view`
+### 6.4 Dashboard ViewModel Navigation
 
-Home view with movie carousel and categories:
+In `lib/ui/views/dashboard/dashboard_viewmodel.dart`:
 
 ```dart
-class HomeView extends StackedView<HomeViewModel> {
-  const HomeView({super.key});
+class DashboardViewModel extends IndexTrackingViewModel {
+  final _router = locator<RouterService>();
 
+  List<MenuItem> menuItems = [
+    MenuItem('Home', Icons.home),
+    MenuItem('Search', Icons.search),
+    MenuItem('Wishlist', Icons.bookmark_add),
+    MenuItem('Profile', Icons.person),
+  ];
+
+  Future<void> onTapMenu(MenuItem menu) async {
+    setIndex(menuItems.indexOf(menu));
+    switch (menu.title) {
+      case 'Home':
+        await _router.navigateToHomeView();
+      case 'Search':
+        await _router.navigateToSearchView();
+      case 'Wishlist':
+        await _router.navigateToWishlistView();
+      case 'Profile':
+        await _router.navigateToProfileView();
+    }
+  }
+}
+```
+
+### 6.5 URL Structure with Nested Routes
+
+The nested routing creates clean URL structures:
+
+- `/` or `/home` - Home page
+- `/search` - Search page  
+- `/profile` - Profile page
+- `/wishlist` - Wishlist page
+
+### 6.6 Benefits of Nested Routing
+
+1. **Proper Web URLs**: Each dashboard page has its own URL
+2. **Browser Navigation**: Back/forward buttons work correctly
+3. **Shareable Links**: Users can share specific dashboard pages
+4. **State Preservation**: Each route maintains its own state
+5. **SEO Friendly**: Search engines can index individual pages
+
+### 6.7 How NestedRouter Works
+
+The `NestedRouter()` widget is a Stacked component that:
+
+1. **Automatically Renders Child Routes**: When placed in a parent view (like `DashboardView`), it automatically renders the appropriate child route based on the current URL. For example:
+   - URL `/` → Renders `HomeView` (the initial child)
+   - URL `/search` → Renders `SearchView`
+   - URL `/profile` → Renders `ProfileView`
+
+2. **Manages Navigation State**: The `NestedRouter` maintains the navigation stack for child routes independently. Users can navigate between dashboard pages without losing the parent context.
+
+3. **Integrates with Stacked Navigation**: It works seamlessly with Stacked's navigation system. When you call `navigationService.navigateTo(...)` to a child route, `NestedRouter` updates accordingly.
+
+4. **Preserves Parent UI**: The parent view (dashboard layout with bottom navigation) remains visible while child content changes. This creates a native app-like experience.
+
+5. **Handles Platform Differences**: On mobile, it integrates with bottom navigation; on desktop/web, it can work with side navigation or tabs while maintaining the same routing structure.
+
+**Implementation in DashboardView**:
+
+```dart
+// In dashboard_view.mobile.dart
+class DashboardViewMobile extends ViewModelWidget<DashboardViewModel> {
   @override
-  Widget builder(
-    BuildContext context,
-    HomeViewModel viewModel,
-    Widget? child,
-  ) {
+  Widget build(BuildContext context, DashboardViewModel viewModel) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Hero carousel
-            CarouselSlider.builder(
-              itemCount: viewModel.movies.length,
-              options: CarouselOptions(
-                height: 500,
-                viewportFraction: 1.0,
-                autoPlay: true,
-              ),
-              itemBuilder: (context, index, realIndex) {
-                final movie = viewModel.movies[index];
-                return MovieHeroCard(movie: movie);
-              },
-            ),
-            
-            // Movie categories
-            MovieCategorySection(
-              title: 'Popular Movies',
-              movies: viewModel.moviesByPopular,
-              onSeeAll: () => viewModel.navigateToMovies(MovieType.popular),
-            ),
-            
-            MovieCategorySection(
-              title: 'Top Rated Movies',
-              movies: viewModel.moviesByTopRated,
-              onSeeAll: () => viewModel.navigateToMovies(MovieType.topRated),
-            ),
-          ],
-        ),
-      ),
+      body: const NestedRouter(),  // ← This renders child routes
+      bottomNavigationBar: NavigationBar(...),
     );
   }
 }
 ```
 
-**Commit:** `f3a3e2e - implement movie item widget`
+The `NestedRouter()` widget reads the route configuration from `app.dart` and renders the appropriate child view based on the URL path segment after the parent route.
 
-Reusable movie card widget:
+### Key Learnings: Nested Navigation
 
-```dart
-class ItemMovie extends StatelessWidget {
-  final Movie movie;
-  
-  const ItemMovie({super.key, required this.movie});
+1. **Children Routes vs PageView**: Children routes provide proper web URLs and browser navigation, while PageView was limited to in-memory state.
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => context.push('/movie/${movie.id}'),
-      child: Container(
-        width: 150,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Movie poster
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: CachedNetworkImage(
-                imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                width: 150,
-                height: 225,
-                fit: BoxFit.cover,
-              ),
-            ),
-            
-            SizedBox(height: 8),
-            
-            // Movie title
-            Text(
-              movie.title ?? '',
-              style: Theme.of(context).textTheme.bodyMedium,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            
-            // Rating
-            Row(
-              children: [
-                Icon(Icons.star, color: Colors.amber, size: 16),
-                SizedBox(width: 4),
-                Text('${movie.voteAverage?.toStringAsFixed(1) ?? '0.0'}'),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-```
+2. **Stacked NestedRouter**: The `NestedRouter()` widget automatically handles child route rendering when you define children in route configuration.
 
-### What You Learned (Dashboard Layout)
+3. **URL Structure**: Parent routes act as URL prefixes (`/`), and child routes append their paths (`/search`, `/profile`, etc.).
 
-- Creating dashboard layouts with navigation
-- Implementing carousels with
+4. **Navigation Patterns**: Use `navigationService.navigateTo(...)` with child route names, and the `NestedRouter` handles the visual transition.
+
+5. **State Management**: Each child route maintains its own ViewModel state, independent of other dashboard pages.
+
+## Conclusion
+
+This tutorial has documented the evolution of the TMDB Movies Flutter application from initial setup through advanced routing patterns. The key architectural improvements include:
+
+1. **Stacked MVVM Architecture**: Clean separation of business logic (ViewModels) from UI (Views)
+2. **Path Parameter Routing**: Web-friendly URLs with `@pathParam` for dynamic content
+3. **Nested Navigation**: Proper hierarchical routing with `NestedRouter()` and children routes
+
+The transition from PageView-based navigation to nested routing represents a significant improvement in web compatibility, URL structure, and user experience. Each dashboard page now has its own shareable URL, browser navigation works correctly, and the application follows web standards while maintaining a native mobile feel.
+
+These changes make the TMDB Movies application a production-ready Flutter web and mobile app that follows best practices for routing, state management, and user experience.

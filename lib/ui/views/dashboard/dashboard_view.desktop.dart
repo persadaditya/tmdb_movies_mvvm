@@ -3,10 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tmdb_movies/constant/vectors.dart';
 import 'package:tmdb_movies/ui/common/ui_helpers.dart';
-import 'package:tmdb_movies/ui/views/home/home_view.dart';
-import 'package:tmdb_movies/ui/views/profile/profile_view.dart';
-import 'package:tmdb_movies/ui/views/search/search_view.dart';
-import 'package:tmdb_movies/ui/views/wishlist/wishlist_view.dart';
 
 import 'dashboard_viewmodel.dart';
 
@@ -83,8 +79,7 @@ class DashboardViewDesktop extends ViewModelWidget<DashboardViewModel> {
                           selectedTileColor:
                               Colors.white.withValues(alpha: 0.2),
                           onTap: () {
-                            viewModel.setIndex(index);
-                            viewModel.pageController.jumpToPage(index);
+                            viewModel.onTapMenu(menu);
                           },
                         );
                       }).toList(),
@@ -103,17 +98,8 @@ class DashboardViewDesktop extends ViewModelWidget<DashboardViewModel> {
             ),
           ),
           const Divider(color: Colors.white24),
-          Expanded(
-            child: PageView(
-              controller: viewModel.pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                HomeView(),
-                SearchView(),
-                WishlistView(),
-                ProfileView()
-              ],
-            ),
+          const Expanded(
+            child: NestedRouter(),
           ),
         ],
       ),
