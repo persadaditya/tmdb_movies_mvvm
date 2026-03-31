@@ -92,7 +92,9 @@ class StackedRouterWeb extends _i16.RootStackRouter {
       );
     },
     MovieViewRoute.name: (routeData) {
-      final args = routeData.argsAs<MovieViewArgs>();
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<MovieViewArgs>(
+          orElse: () => MovieViewArgs(id: pathParams.getString('id')));
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
         child: _i8.MovieView(
@@ -183,51 +185,51 @@ class StackedRouterWeb extends _i16.RootStackRouter {
         ),
         _i16.RouteConfig(
           HomeViewRoute.name,
-          path: '/home-view',
+          path: '/home',
         ),
         _i16.RouteConfig(
           SignInViewRoute.name,
-          path: '/sign-in-view',
+          path: '/sign-in',
         ),
         _i16.RouteConfig(
           DashboardViewRoute.name,
-          path: '/dashboard-view',
+          path: '/',
         ),
         _i16.RouteConfig(
           SearchViewRoute.name,
-          path: '/search-view',
+          path: '/search',
         ),
         _i16.RouteConfig(
           ProfileViewRoute.name,
-          path: '/profile-view',
+          path: '/profile',
         ),
         _i16.RouteConfig(
           WishlistViewRoute.name,
-          path: '/wishlist-view',
+          path: '/wishlist',
         ),
         _i16.RouteConfig(
           MovieViewRoute.name,
-          path: '/movie-view',
+          path: '/movie/:id',
         ),
         _i16.RouteConfig(
           ImageViewRoute.name,
-          path: '/image-view',
+          path: '/image',
         ),
         _i16.RouteConfig(
           GalleryViewRoute.name,
-          path: '/gallery-view',
+          path: '/gallery',
         ),
         _i16.RouteConfig(
           TrailersViewRoute.name,
-          path: '/trailers-view',
+          path: '/trailers',
         ),
         _i16.RouteConfig(
           VideoViewRoute.name,
-          path: '/video-view',
+          path: '/video',
         ),
         _i16.RouteConfig(
           MoviesViewRoute.name,
-          path: '/movies-view',
+          path: '/movies',
         ),
         _i16.RouteConfig(
           UnknownViewRoute.name,
@@ -260,7 +262,7 @@ class HomeViewRoute extends _i16.PageRouteInfo<void> {
   const HomeViewRoute()
       : super(
           HomeViewRoute.name,
-          path: '/home-view',
+          path: '/home',
         );
 
   static const String name = 'HomeView';
@@ -272,7 +274,7 @@ class SignInViewRoute extends _i16.PageRouteInfo<void> {
   const SignInViewRoute()
       : super(
           SignInViewRoute.name,
-          path: '/sign-in-view',
+          path: '/sign-in',
         );
 
   static const String name = 'SignInView';
@@ -284,7 +286,7 @@ class DashboardViewRoute extends _i16.PageRouteInfo<void> {
   const DashboardViewRoute()
       : super(
           DashboardViewRoute.name,
-          path: '/dashboard-view',
+          path: '/',
         );
 
   static const String name = 'DashboardView';
@@ -296,7 +298,7 @@ class SearchViewRoute extends _i16.PageRouteInfo<void> {
   const SearchViewRoute()
       : super(
           SearchViewRoute.name,
-          path: '/search-view',
+          path: '/search',
         );
 
   static const String name = 'SearchView';
@@ -308,7 +310,7 @@ class ProfileViewRoute extends _i16.PageRouteInfo<void> {
   const ProfileViewRoute()
       : super(
           ProfileViewRoute.name,
-          path: '/profile-view',
+          path: '/profile',
         );
 
   static const String name = 'ProfileView';
@@ -320,7 +322,7 @@ class WishlistViewRoute extends _i16.PageRouteInfo<void> {
   const WishlistViewRoute()
       : super(
           WishlistViewRoute.name,
-          path: '/wishlist-view',
+          path: '/wishlist',
         );
 
   static const String name = 'WishlistView';
@@ -331,14 +333,15 @@ class WishlistViewRoute extends _i16.PageRouteInfo<void> {
 class MovieViewRoute extends _i16.PageRouteInfo<MovieViewArgs> {
   MovieViewRoute({
     _i17.Key? key,
-    required int id,
+    required String id,
   }) : super(
           MovieViewRoute.name,
-          path: '/movie-view',
+          path: '/movie/:id',
           args: MovieViewArgs(
             key: key,
             id: id,
           ),
+          rawPathParams: {'id': id},
         );
 
   static const String name = 'MovieView';
@@ -352,7 +355,7 @@ class MovieViewArgs {
 
   final _i17.Key? key;
 
-  final int id;
+  final String id;
 
   @override
   String toString() {
@@ -368,7 +371,7 @@ class ImageViewRoute extends _i16.PageRouteInfo<ImageViewArgs> {
     required String url,
   }) : super(
           ImageViewRoute.name,
-          path: '/image-view',
+          path: '/image',
           args: ImageViewArgs(
             key: key,
             url: url,
@@ -402,7 +405,7 @@ class GalleryViewRoute extends _i16.PageRouteInfo<GalleryViewArgs> {
     required _i18.MovieImage movieImage,
   }) : super(
           GalleryViewRoute.name,
-          path: '/gallery-view',
+          path: '/gallery',
           args: GalleryViewArgs(
             key: key,
             movieImage: movieImage,
@@ -436,7 +439,7 @@ class TrailersViewRoute extends _i16.PageRouteInfo<TrailersViewArgs> {
     required int movieId,
   }) : super(
           TrailersViewRoute.name,
-          path: '/trailers-view',
+          path: '/trailers',
           args: TrailersViewArgs(
             key: key,
             movieId: movieId,
@@ -470,7 +473,7 @@ class VideoViewRoute extends _i16.PageRouteInfo<VideoViewArgs> {
     String? youtubeKey,
   }) : super(
           VideoViewRoute.name,
-          path: '/video-view',
+          path: '/video',
           args: VideoViewArgs(
             key: key,
             youtubeKey: youtubeKey,
@@ -505,7 +508,7 @@ class MoviesViewRoute extends _i16.PageRouteInfo<MoviesViewArgs> {
     required _i19.MovieType type,
   }) : super(
           MoviesViewRoute.name,
-          path: '/movies-view',
+          path: '/movies',
           args: MoviesViewArgs(
             key: key,
             id: id,
@@ -606,7 +609,7 @@ extension RouterStateExtension on _i15.RouterService {
 
   Future<dynamic> navigateToMovieView({
     _i17.Key? key,
-    required int id,
+    required String id,
     void Function(_i16.NavigationFailure)? onFailure,
   }) async {
     return navigateTo(
@@ -756,7 +759,7 @@ extension RouterStateExtension on _i15.RouterService {
 
   Future<dynamic> replaceWithMovieView({
     _i17.Key? key,
-    required int id,
+    required String id,
     void Function(_i16.NavigationFailure)? onFailure,
   }) async {
     return replaceWith(

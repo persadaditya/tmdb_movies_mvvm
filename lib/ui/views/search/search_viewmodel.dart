@@ -71,7 +71,7 @@ class SearchViewModel extends BaseViewModel {
   }
 
   void onTapMovie(int id) {
-    _router.navigateToMovieView(id: id);
+    _router.navigateTo(MovieViewRoute(id: '$id'));
   }
 
   @override

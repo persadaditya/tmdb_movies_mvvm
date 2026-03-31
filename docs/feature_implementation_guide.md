@@ -16,7 +16,7 @@ This is a Flutter movie application built using the **Stacked architecture** tha
 
 The project uses the Stacked architecture which consists of:
 
-```
+```mvvm flow
 View (UI) → ViewModel (Business Logic) → Service (Data Layer) → API/Repository
 ```
 

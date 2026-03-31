@@ -25,7 +25,8 @@ class ItemMovie extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: () {
-        locator<RouterService>().navigateToMovieView(id: movie.id ?? 0);
+        var routerService = locator<RouterService>();
+        routerService.navigateTo(MovieViewRoute(id: '${movie.id}'));
       },
       child: Stack(
         alignment: const Alignment(0.75, -0.95),

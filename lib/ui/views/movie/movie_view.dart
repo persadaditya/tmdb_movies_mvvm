@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import 'movie_view.desktop.dart';
 import 'movie_view.tablet.dart';
@@ -8,9 +9,9 @@ import 'movie_view.mobile.dart';
 import 'movie_viewmodel.dart';
 
 class MovieView extends StackedView<MovieViewModel> {
-  const MovieView({super.key, required this.id});
+  const MovieView({super.key, @pathParam required this.id});
 
-  final int id;
+  final String id;
 
   @override
   Widget builder(
@@ -43,5 +44,5 @@ class MovieView extends StackedView<MovieViewModel> {
   MovieViewModel viewModelBuilder(
     BuildContext context,
   ) =>
-      MovieViewModel(id: id);
+      MovieViewModel(id: int.tryParse(id) ?? 0);
 }
